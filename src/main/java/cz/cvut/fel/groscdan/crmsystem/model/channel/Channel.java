@@ -1,11 +1,10 @@
 package cz.cvut.fel.groscdan.crmsystem.model.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity

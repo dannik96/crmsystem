@@ -1,11 +1,12 @@
 package cz.cvut.fel.groscdan.crmsystem.security.model;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user_role")

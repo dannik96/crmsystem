@@ -1,10 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.project;
 
 
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.CommentDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskDto;
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskStateDto;
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TimeSpentDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.PersonMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.*;

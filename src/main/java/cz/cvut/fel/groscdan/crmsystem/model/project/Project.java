@@ -4,7 +4,8 @@ import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Customer;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Product;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -2,7 +2,10 @@ package cz.cvut.fel.groscdan.crmsystem.controller.mappers.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.LabelDto;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Label;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 import java.util.Set;

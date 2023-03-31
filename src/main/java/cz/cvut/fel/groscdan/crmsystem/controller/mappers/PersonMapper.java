@@ -2,10 +2,12 @@ package cz.cvut.fel.groscdan.crmsystem.controller.mappers;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.PersonDto;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Mapper

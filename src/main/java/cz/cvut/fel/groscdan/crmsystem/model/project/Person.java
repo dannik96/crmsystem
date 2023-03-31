@@ -1,9 +1,12 @@
 package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractPerson;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import lombok.*;
+import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;

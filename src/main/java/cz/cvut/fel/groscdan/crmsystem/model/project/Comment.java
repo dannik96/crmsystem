@@ -1,7 +1,8 @@
 package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "comment")

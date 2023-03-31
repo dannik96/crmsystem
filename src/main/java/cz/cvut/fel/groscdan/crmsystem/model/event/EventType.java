@@ -1,9 +1,8 @@
 package cz.cvut.fel.groscdan.crmsystem.model.event;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractState;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 

@@ -6,9 +6,9 @@ import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.PostRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.*;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 

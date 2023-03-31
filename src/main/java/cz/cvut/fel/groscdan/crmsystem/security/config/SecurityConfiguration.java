@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,8 +55,8 @@ public class SecurityConfiguration {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()//.requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
         ;
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);

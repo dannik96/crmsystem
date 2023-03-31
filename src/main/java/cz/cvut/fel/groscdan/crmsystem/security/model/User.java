@@ -1,10 +1,10 @@
 package cz.cvut.fel.groscdan.crmsystem.security.model;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

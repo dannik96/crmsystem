@@ -2,8 +2,12 @@ package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
-import jakarta.persistence.*;
-import lombok.*;
+import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;

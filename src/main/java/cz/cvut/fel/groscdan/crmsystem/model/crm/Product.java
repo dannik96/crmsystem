@@ -3,7 +3,8 @@ package cz.cvut.fel.groscdan.crmsystem.model.crm;
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.event.Event;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 
 import java.util.List;
 

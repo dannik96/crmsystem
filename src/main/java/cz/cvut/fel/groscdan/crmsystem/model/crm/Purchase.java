@@ -1,7 +1,8 @@
 package cz.cvut.fel.groscdan.crmsystem.model.crm;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 

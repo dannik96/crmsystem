@@ -1,12 +1,10 @@
 package cz.cvut.fel.groscdan.crmsystem.model.crm;
 
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
-import cz.cvut.fel.groscdan.crmsystem.model.crm.Product;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 

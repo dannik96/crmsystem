@@ -9,10 +9,9 @@ import cz.cvut.fel.groscdan.crmsystem.repository.channel.AudienceRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.TypeRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import java.util.Set;
 
 @Service
