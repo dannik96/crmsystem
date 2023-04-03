@@ -5,7 +5,7 @@ import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.PostDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
-import cz.cvut.fel.groscdan.crmsystem.service.PostService;
+import cz.cvut.fel.groscdan.crmsystem.service.channel.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/post")
-public class PostsController {
+public class PostController {
     
     private final PostService postService;
     private final PostMapper postMapper;
 
-    public PostsController(PostService postService, PostMapper postMapper) {
+    public PostController(PostService postService, PostMapper postMapper) {
         this.postService = postService;
         this.postMapper = postMapper;
     }
@@ -55,6 +55,12 @@ public class PostsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ChannelDto> deletePost(@PathVariable Long id) throws DeleteError {
         postService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{postId}/set-state/{stateId}}")
+    public ResponseEntity<ChannelDto> setState(@PathVariable Long postId, @PathVariable Long stateId) throws DeleteError {
+        postService.setState(postId, stateId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

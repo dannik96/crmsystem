@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PostStateService extends AbstractService<PostStateRepository, PostState> {
 
     public PostStateService(PostStateRepository repository) {
-        super(repository);
+        super(repository, "PostState");
     }
 
     @Override

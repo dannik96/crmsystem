@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AudienceService extends AbstractService<AudienceRepository, Audience> {
     public AudienceService(AudienceRepository repository) {
-        super(repository);
+        super(repository, "Audience");
     }
 
     @Override

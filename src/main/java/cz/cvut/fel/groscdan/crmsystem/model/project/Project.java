@@ -1,7 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Customer;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Product;
 import javax.persistence.*;
@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "project")
@@ -23,7 +24,7 @@ public class Project extends AbstractEntity {
     @Column
     private String name;
 
-    @Column(updatable = false)
+    @Column
     private LocalDateTime created;
 
     @ManyToOne
@@ -32,23 +33,30 @@ public class Project extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "project_audience",
+            name = "project_channel",
             joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "audience_id"))
-    private List<Audience> audiences;
+            inverseJoinColumns = @JoinColumn(name = "channel_id"))
+    private Set<Channel> channels;
 
     @ManyToMany
     @JoinTable(
             name = "project_customer",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "customer_id"))
-    private List<Customer> customers;
+    private Set<Customer> customers;
 
     @ManyToMany
     @JoinTable(
             name = "project_product",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    private Set<Product> products;
 
+    public void addChannel(Channel channel) {
+        channels.add(channel);
+    }
+
+    public void removeChannel(Channel channel) {
+        channels.remove(channel);
+    }
 }

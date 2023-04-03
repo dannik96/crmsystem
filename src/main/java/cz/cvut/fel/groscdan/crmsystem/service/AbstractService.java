@@ -4,6 +4,7 @@ import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,11 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
 
 
     protected final T repository;
+    private final String name;
 
-    public AbstractService(T repository) {
+    public AbstractService(T repository, String name) {
         this.repository = repository;
+        this.name = name;
     }
 
 
@@ -38,13 +41,17 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     }
 
     public E getOneById(Long id){
-        return repository.getReferenceById(id);
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + name + " with " + id + " not found."));
     }
 
-    public boolean delete(Long id) throws DeleteError {
+    public E getOneById(Long id, RuntimeException runtimeException){
+        return repository.findById(id).orElseThrow(() -> runtimeException);
+    }
+
+    public void delete(Long id) throws DeleteError {
         if (repository.existsById(id)){
             repository.deleteById(id);
-            return true;
+            return;
         }
         throw new DeleteError();
     }

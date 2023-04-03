@@ -84,4 +84,15 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("/{idProject}/add-channel/{idChannel}")
+    public ResponseEntity<?> addChannel(@PathVariable Long idProject, @PathVariable Long idChannel) {
+        projectService.addChannel(idProject, idChannel);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{idProject}/remove-channel/{idChannel}")
+    public ResponseEntity<?> removeChannel(@PathVariable Long idProject, @PathVariable Long idChannel) {
+        projectService.removeChannel(idProject, idChannel);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

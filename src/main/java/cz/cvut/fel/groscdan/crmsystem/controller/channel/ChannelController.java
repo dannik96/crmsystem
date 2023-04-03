@@ -36,8 +36,8 @@ public class ChannelController {
 
     @GetMapping
     public ResponseEntity<List<ChannelDto>> getAll() {
-        List<Channel> types = channelService.getAll();
-        return new ResponseEntity<>(types.stream().map(channelMapper::channelToChannelDto).collect(Collectors.toList()), HttpStatus.OK);
+        List<Channel> channels = channelService.getAll();
+        return new ResponseEntity<>(channelMapper.channelToChannelDto(channels), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

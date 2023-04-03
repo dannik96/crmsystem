@@ -1,10 +1,12 @@
 package cz.cvut.fel.groscdan.crmsystem.model.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,6 +45,9 @@ public class Channel extends AbstractEntity {
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "audience_id"))
     private Set<Audience> audiences;
+
+    @ManyToMany
+    private Set<Project> projects;
 
     public boolean addType(Type type) {
         return types.add(type);

@@ -17,7 +17,5 @@ public class Audience extends AbstractEntity {
     @Column
     private String description;
 
-    @ManyToMany
-    private List<Project> projects;
 
 }

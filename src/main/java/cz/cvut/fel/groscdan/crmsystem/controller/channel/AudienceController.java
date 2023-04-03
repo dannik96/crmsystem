@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/audience")
 public class AudienceController {
     private final AudienceService audienceService;
-    private final AudienceMapper typeMapper = Mappers.getMapper(AudienceMapper.class);
+    private final AudienceMapper audienceMapper = Mappers.getMapper(AudienceMapper.class);
 
     public AudienceController(AudienceService audienceService) {
         this.audienceService = audienceService;
@@ -25,31 +25,31 @@ public class AudienceController {
 
     @GetMapping
     public ResponseEntity<List<AudienceDto>> getAll(){
-        List<Audience> types = audienceService.getAll();
-        return new ResponseEntity<>(types.stream().map(typeMapper::audienceToAudienceDto).collect(Collectors.toList()), HttpStatus.OK);
+        List<Audience> audiences = audienceService.getAll();
+        return new ResponseEntity<>(audienceMapper.audienceToAudienceDto(audiences), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AudienceDto> get(@PathVariable Long id){
         Audience audience = audienceService.getOneById(id);
-        AudienceDto audienceDto = typeMapper.audienceToAudienceDto(audience);
+        AudienceDto audienceDto = audienceMapper.audienceToAudienceDto(audience);
         return new ResponseEntity<>(audienceDto, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<AudienceDto> createType(@RequestBody AudienceDto typeDto) {
 
-        Audience audience = typeMapper.audienceDtoToAudience(typeDto);
+        Audience audience = audienceMapper.audienceDtoToAudience(typeDto);
         audience = audienceService.create(audience);
-        typeDto = typeMapper.audienceToAudienceDto(audience);
+        typeDto = audienceMapper.audienceToAudienceDto(audience);
         return new ResponseEntity<>(typeDto, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<AudienceDto> updateType(@RequestBody AudienceDto typeDto) {
-        Audience audience = typeMapper.audienceDtoToAudience(typeDto);
+        Audience audience = audienceMapper.audienceDtoToAudience(typeDto);
         audience = audienceService.update(audience);
-        typeDto = typeMapper.audienceToAudienceDto(audience);
+        typeDto = audienceMapper.audienceToAudienceDto(audience);
         return new ResponseEntity<>(typeDto, HttpStatus.OK);
     }
 

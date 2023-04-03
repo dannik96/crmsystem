@@ -1,11 +1,13 @@
 package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.project.*;
-import cz.cvut.fel.groscdan.crmsystem.repository.channel.PostRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.*;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
+import cz.cvut.fel.groscdan.crmsystem.service.channel.PostService;
+import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,23 +17,25 @@ import java.util.Set;
 @Service
 public class TaskService extends AbstractService<TaskRepository, Task> {
 
-    private final LabelRepository labelRepository;
-    private final TaskStateRepository taskStateRepository;
-    private final TimeSpentRepository timeSpentRepository;
-    private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
-    private final PersonRepository personRepository;
-    private final ProjectRepository projectRepository;
+    private final LabelService labelService;
+    private final TaskStateService taskStateService;
+    private final TimeSpentService timeSpentService;
+    private final PostService postService;
+    private final CommentService commentService;
+    private final PersonService personService;
+    private final ProjectService projectService;
+    private final ChannelService channelService;
 
-    public TaskService(TaskRepository repository, LabelRepository labelRepository, TaskStateRepository taskStateRepository, TimeSpentRepository timeSpentRepository, PostRepository postRepository, CommentRepository commentRepository, PersonRepository personRepository, ProjectRepository projectRepository) {
-        super(repository);
-        this.labelRepository = labelRepository;
-        this.taskStateRepository = taskStateRepository;
-        this.timeSpentRepository = timeSpentRepository;
-        this.postRepository = postRepository;
-        this.commentRepository = commentRepository;
-        this.personRepository = personRepository;
-        this.projectRepository = projectRepository;
+    public TaskService(TaskRepository repository, LabelService labelService, TaskStateService taskStateService, TimeSpentService timeSpentService, PostService postService, CommentService commentService, PersonService personService, ProjectService projectService, ChannelService channelService) {
+        super(repository, "Task");
+        this.labelService = labelService;
+        this.taskStateService = taskStateService;
+        this.timeSpentService = timeSpentService;
+        this.postService = postService;
+        this.commentService = commentService;
+        this.personService = personService;
+        this.projectService = projectService;
+        this.channelService = channelService;
     }
 
     @Override
@@ -41,8 +45,8 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public void addLabel(Long taskId, Long labelId) {
-        Label label = labelRepository.findById(labelId).orElseThrow(PatchError::new);
-        Task task = repository.findById(taskId).orElseThrow(PatchError::new);
+        Label label = labelService.getOneById(labelId, new PatchError());
+        Task task = getOneById(taskId, new PatchError());
 
         task.addLabel(label);
 
@@ -50,8 +54,8 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public void removeLabel(Long taskId, Long labelId) {
-        Label label = labelRepository.findById(labelId).orElseThrow(() -> new EntityNotFoundException("Channel with id " + labelId + " not found."));
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Channel with id " + taskId + " not found."));
+        Label label = labelService.getOneById(labelId, new PatchError());
+        Task task = getOneById(taskId, new PatchError());
 
         task.removeLabel(label);
 
@@ -59,13 +63,13 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public Set<Label> getAllLabels(Long id) {
-        Task task = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Channel with id " + id + " not found."));
+        Task task = getOneById(id);
         return task.getLabels();
     }
 
     public void setState(Long taskId, Long stateId) {
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Channel with id " + taskId + " not found."));
-        TaskState taskState = taskStateRepository.findById(stateId).orElseThrow(() -> new EntityNotFoundException("Channel with id " + stateId + " not found."));
+        Task task = getOneById(taskId, new PatchError());
+        TaskState taskState = taskStateService.getOneById(stateId, new PatchError());
 
         task.setState(taskState);
 
@@ -82,12 +86,12 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
 
     public List<TimeSpent> getTimeSpent(Long id) {
         Task task = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task with id " + id + " does not exists."));
-        return timeSpentRepository.findAllByTask(task);
+        return timeSpentService.findAllByTask(task);
     }
 
     public void addPost(Long taskId, Long postId) {
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " does not exists."));
-        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post with id " + postId + " does not exists."));
+        Task task = getOneById(taskId, new PatchError());
+        Post post = postService.getOneById(postId, new PatchError());
 
         task.addPost(post);
 
@@ -95,8 +99,8 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public void removePost(Long taskId, Long postId) {
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " does not exists."));
-        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post with id " + postId + " does not exists."));
+        Task task = getOneById(taskId, new PatchError());
+        Post post = postService.getOneById(postId, new PatchError());
 
         task.removePost(post);
 
@@ -104,9 +108,9 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public List<Comment> getTaskComments(Long taskId) {
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " does not exists."));
+        Task task = getOneById(taskId);
 
-        return commentRepository.findAllByTask(task);
+        return commentService.findAllByTask(task);
     }
 
     public Person getAssignee(Long taskId) {
@@ -116,21 +120,21 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public void setAssignee(Long taskId, Long assigneeId) {
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task with id " + taskId + " does not exists."));
-        Person person = personRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Person with id " + taskId + " does not exists."));
+        Task task = getOneById(taskId, new PatchError());
+        Person person = personService.getOneById(assigneeId, new PatchError());
 
         task.setAssignedPerson(person);
     }
 
     public List<Task> getProjectTasks(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Project with id " + id + " does not exists."));
+        Project project = projectService.getOneById(id);
 
         return repository.getTasksByProject(project);
     }
 
     public void setProject(Long taskId, Long projectId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project with id " + projectId + " does not exists."));
-        Task task = repository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Project with id " + projectId + " does not exists."));
+        Project project = projectService.getOneById(projectId, new PatchError());
+        Task task = getOneById(taskId, new PatchError());
 
         if (task.getProject() != null) {
             task.setProject(project);

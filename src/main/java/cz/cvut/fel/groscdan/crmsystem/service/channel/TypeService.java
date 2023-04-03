@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class TypeService extends AbstractService<TypeRepository, Type> {
 
     public TypeService(TypeRepository repository) {
-        super(repository);
+        super(repository, "Type");
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ChannelService extends AbstractService<ChannelRepository, Channel> 
     private final AudienceRepository audienceRepository;
 
     public ChannelService(ChannelRepository repository, TypeRepository typeRepository, AudienceRepository audienceRepository) {
-        super(repository);
+        super(repository, "Channel");
         this.typeRepository = typeRepository;
         this.audienceRepository = audienceRepository;
     }
