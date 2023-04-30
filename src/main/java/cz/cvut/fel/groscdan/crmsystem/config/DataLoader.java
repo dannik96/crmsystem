@@ -34,8 +34,8 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         postRepository.save(new Post("lala"));
         User user = new User("admin", "admin", passwordEncoder.encode("admin"));
-        UserRole userRole = new UserRole(ERole.ROLE_ADMIN);
-        userRoleRepository.save(userRole);
+        UserRole userRole = userRoleRepository.getReferenceById(1L);
+//        userRoleRepository.save(userRole);
         user.addRole(userRole);
         userRepository.save(user);
     }

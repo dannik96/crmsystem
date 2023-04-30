@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "event")
@@ -37,14 +38,21 @@ public class Event extends AbstractEntity {
             name = "product_event",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> tasks;
+    private Set<Product> tasks;
 
     @ManyToMany
     @JoinTable(
             name = "event_event_type",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "event_type_id"))
-    private List<EventType> eventTypes;
+    private Set<EventType> eventTypes;
 
 
+    public boolean addEventType(EventType eventType) {
+        return eventTypes.add(eventType);
+    }
+
+    public boolean removeEventType(EventType eventType) {
+        return eventTypes.remove(eventType);
+    }
 }

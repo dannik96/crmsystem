@@ -1,6 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.model.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Task;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class Post extends AbstractEntity {
             name = "posts_datas",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "data_id"))
-    private List<Data> types;
+    private List<Data> data;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id")
@@ -38,6 +39,10 @@ public class Post extends AbstractEntity {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
     private List<Task> tasks;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Person author;
 
     public Post() {
 

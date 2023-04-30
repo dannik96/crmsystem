@@ -6,6 +6,7 @@ import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.PostService;
+import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,10 @@ import java.util.stream.Collectors;
 public class PostController {
     
     private final PostService postService;
-    private final PostMapper postMapper;
+    private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
 
-    public PostController(PostService postService, PostMapper postMapper) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.postMapper = postMapper;
     }
 
     @GetMapping
