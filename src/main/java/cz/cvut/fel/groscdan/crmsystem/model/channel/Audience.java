@@ -2,6 +2,9 @@ package cz.cvut.fel.groscdan.crmsystem.model.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 
@@ -9,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "audience")
 public class Audience extends AbstractEntity {
 

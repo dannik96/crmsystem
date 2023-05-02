@@ -1,13 +1,18 @@
 package cz.cvut.fel.groscdan.crmsystem.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class AbstractState extends AbstractEntity {
 
     @Column
-    private String name;
+    protected String name;
 
     @Column
-    private String description;
+    protected String description;
 }

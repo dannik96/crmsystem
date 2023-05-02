@@ -1,7 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.mappers.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.LabelDto;
-import cz.cvut.fel.groscdan.crmsystem.model.project.Label;
+import cz.cvut.fel.groscdan.crmsystem.model.project.TaskLabel;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -12,18 +12,18 @@ import java.util.Set;
 
 @Mapper
 public interface LabelMapper {
-    Label labelDtoToLabel(LabelDto labelDto);
+    TaskLabel labelDtoToLabel(LabelDto labelDto);
 
-    LabelDto labelToLabelDto(Label label);
+    LabelDto labelToLabelDto(TaskLabel taskLabel);
 
-    List<Label> labelDtoToLabel(List<LabelDto> labelDto);
+    List<TaskLabel> labelDtoToLabel(List<LabelDto> labelDto);
 
-    List<LabelDto> labelToLabelDto(List<Label> label);
+    List<LabelDto> labelToLabelDto(List<TaskLabel> taskLabel);
 
-    Set<Label> labelDtoToLabel(Set<LabelDto> labelDto);
+    Set<TaskLabel> labelDtoToLabel(Set<LabelDto> labelDto);
 
-    Set<LabelDto> labelToLabelDto(Set<Label> label);
+    Set<LabelDto> labelToLabelDto(Set<TaskLabel> taskLabel);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Label updateLabelFromLabelDto(LabelDto labelDto, @MappingTarget Label label);
+    TaskLabel updateLabelFromLabelDto(LabelDto labelDto, @MappingTarget TaskLabel taskLabel);
 }

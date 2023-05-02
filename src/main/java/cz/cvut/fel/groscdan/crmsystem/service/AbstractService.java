@@ -20,6 +20,15 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
         this.name = name;
     }
 
+    public List<E> create(List<E> records) {
+        List<E> createdRecords = new ArrayList<>();
+        for (E record : records) {
+            record.setCreated(LocalDateTime.now());
+            record.setModified(LocalDateTime.now());
+            createdRecords.add(repository.saveAndFlush(record));
+        }
+        return createdRecords;
+    }
 
     public E create(E record) {
         record.setCreated(LocalDateTime.now());
@@ -40,16 +49,16 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
         return updateExisting(existingRecord, record);
     }
 
-    public E getOneById(Long id){
+    public E getOneById(Long id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + name + " with " + id + " not found."));
     }
 
-    public E getOneById(Long id, RuntimeException runtimeException){
+    public E getOneById(Long id, RuntimeException runtimeException) {
         return repository.findById(id).orElseThrow(() -> runtimeException);
     }
 
     public void delete(Long id) throws DeleteError {
-        if (repository.existsById(id)){
+        if (repository.existsById(id)) {
             repository.deleteById(id);
             return;
         }

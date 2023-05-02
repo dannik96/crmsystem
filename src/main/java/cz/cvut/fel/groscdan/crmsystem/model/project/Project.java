@@ -4,14 +4,19 @@ import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Customer;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Product;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension;
+
 import javax.persistence.*;
 
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "project")
 public class Project extends AbstractEntity {
 
@@ -24,12 +29,18 @@ public class Project extends AbstractEntity {
     @Column
     private String name;
 
-    @Column
-    private LocalDateTime created;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
-    private Person person;
+    private Person manager;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private ProjectType projectType;
+
+    @ManyToOne
+    @JoinColumn(name = "project_state_id")
+    private ProjectState projectState;
 
     @ManyToMany
     @JoinTable(
@@ -58,5 +69,9 @@ public class Project extends AbstractEntity {
 
     public void removeChannel(Channel channel) {
         channels.remove(channel);
+    }
+
+    public void addProjectType(ProjectType projectType) {
+        this.projectType = projectType;
     }
 }

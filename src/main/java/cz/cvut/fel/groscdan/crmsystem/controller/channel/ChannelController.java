@@ -8,8 +8,8 @@ import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.TypeMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Type;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/channel")
@@ -109,7 +108,7 @@ public class ChannelController {
 
     @GetMapping("/{id}/types")
     public ResponseEntity<?> getChannelTypes(@PathVariable Long id) {
-        Set<Type> types = channelService.getAllTypes(id);
-        return new ResponseEntity<>(typeMapper.typeToTypeDto(types), HttpStatus.OK);
+        Set<ChannelType> channelTypes = channelService.getAllTypes(id);
+        return new ResponseEntity<>(typeMapper.typeToTypeDto(channelTypes), HttpStatus.OK);
     }
 }

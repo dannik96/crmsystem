@@ -45,7 +45,7 @@ public class Task extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "labels_id")
     )
     @ToString.Exclude
-    private Set<Label> labels;
+    private Set<TaskLabel> taskLabels;
 
     @ManyToOne
     @JoinColumn(name = "state_id")
@@ -64,12 +64,12 @@ public class Task extends AbstractEntity {
     @JoinColumn(name = "assigne_id")
     private Person assignedPerson;
 
-    public void addLabel(Label label) {
-        labels.add(label);
+    public void addLabel(TaskLabel taskLabel) {
+        taskLabels.add(taskLabel);
     }
 
-    public void removeLabel(Label label) {
-        labels.remove(label);
+    public void removeLabel(TaskLabel taskLabel) {
+        taskLabels.remove(taskLabel);
     }
 
     @Override

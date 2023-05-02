@@ -1,6 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.security.model;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -28,6 +29,9 @@ public class User extends AbstractEntity {
     @Column
     @NonNull
     private String password;
+
+    @OneToOne(mappedBy = "user")
+    private Person user;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_to_roles",

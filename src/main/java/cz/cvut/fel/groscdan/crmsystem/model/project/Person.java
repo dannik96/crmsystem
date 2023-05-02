@@ -3,10 +3,8 @@ package cz.cvut.fel.groscdan.crmsystem.model.project;
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractPerson;
 import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import cz.cvut.fel.groscdan.crmsystem.security.model.User;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -23,6 +21,16 @@ public class Person extends AbstractPerson {
     @ToString.Exclude
     private Set<Task> tasks;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public Person(User user) {
+        super();
+        login = user.getUsername();
+        email = user.getEmail();
+        this.user = user;
+    }
 
     public void addTask(Task task) {
         tasks.add(task);

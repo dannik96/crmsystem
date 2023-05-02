@@ -1,24 +1,29 @@
 package cz.cvut.fel.groscdan.crmsystem.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 
 @Entity
+@Setter
+@Getter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class AbstractPerson extends AbstractEntity {
 
     @Column
-    private String email;
+    protected String email;
 
     @Column
-    private String login;
+    protected String login;
 
     @Column
-    private String name;
+    protected String name;
 
     @Column
-    private String surname;
+    protected String surname;
 
     @Column
-    private String phone;
+    protected String phone;
 }

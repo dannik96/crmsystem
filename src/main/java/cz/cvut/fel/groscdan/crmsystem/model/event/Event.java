@@ -38,7 +38,7 @@ public class Event extends AbstractEntity {
             name = "product_event",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> tasks;
+    private Set<Product> products;
 
     @ManyToMany
     @JoinTable(

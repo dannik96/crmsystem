@@ -1,7 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.TypeDto;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Type;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
 import org.mapstruct.Mapper;
 
 import java.util.Set;
@@ -9,10 +9,10 @@ import java.util.Set;
 @Mapper
 public interface TypeMapper {
 
-    TypeDto typeToTypeDTO(Type entity);
+    TypeDto typeToTypeDTO(ChannelType entity);
 
-    Type typeDTOtoType(TypeDto dto);
+    ChannelType typeDTOtoType(TypeDto dto);
 
 
-    Set<TypeDto> typeToTypeDto(Set<Type> types);
+    Set<TypeDto> typeToTypeDto(Set<ChannelType> channelTypes);
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,7 +36,7 @@ public class Channel extends AbstractEntity {
             name = "channels_types",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
-    private Set<Type> types;
+    private Set<ChannelType> channelTypes;
 
 
     @ManyToMany
@@ -49,12 +49,12 @@ public class Channel extends AbstractEntity {
     @ManyToMany
     private Set<Project> projects;
 
-    public boolean addType(Type type) {
-        return types.add(type);
+    public boolean addType(ChannelType channelType) {
+        return channelTypes.add(channelType);
     }
 
-    public boolean removeType(Type type) {
-        return types.remove(type);
+    public boolean removeType(ChannelType channelType) {
+        return channelTypes.remove(channelType);
     }
 
     public boolean addAudience(Audience type) {
@@ -63,5 +63,12 @@ public class Channel extends AbstractEntity {
 
     public boolean removeAudience(Audience type) {
         return audiences.remove(type);
+    }
+
+    public void addProject(Project project) {
+        if (projects == null) {
+            projects = new HashSet<>();
+        }
+        projects.add(project);
     }
 }

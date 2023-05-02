@@ -84,7 +84,7 @@ public class TaskController{
 
     @GetMapping("/{id}/labels")
     public ResponseEntity<?> getTaskLabels(@PathVariable Long id) {
-        Set<Label> posts = taskService.getAllLabels(id);
+        Set<TaskLabel> posts = taskService.getAllLabels(id);
         return new ResponseEntity<>(labelMapper.labelToLabelDto(posts), HttpStatus.OK);
     }
 

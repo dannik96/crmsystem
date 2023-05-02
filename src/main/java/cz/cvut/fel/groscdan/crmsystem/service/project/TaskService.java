@@ -1,7 +1,6 @@
 package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.*;
@@ -17,7 +16,7 @@ import java.util.Set;
 @Service
 public class TaskService extends AbstractService<TaskRepository, Task> {
 
-    private final LabelService labelService;
+    private final TaskLabelService taskLabelService;
     private final TaskStateService taskStateService;
     private final TimeSpentService timeSpentService;
     private final PostService postService;
@@ -26,9 +25,9 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     private final ProjectService projectService;
     private final ChannelService channelService;
 
-    public TaskService(TaskRepository repository, LabelService labelService, TaskStateService taskStateService, TimeSpentService timeSpentService, PostService postService, CommentService commentService, PersonService personService, ProjectService projectService, ChannelService channelService) {
+    public TaskService(TaskRepository repository, TaskLabelService taskLabelService, TaskStateService taskStateService, TimeSpentService timeSpentService, PostService postService, CommentService commentService, PersonService personService, ProjectService projectService, ChannelService channelService) {
         super(repository, "Task");
-        this.labelService = labelService;
+        this.taskLabelService = taskLabelService;
         this.taskStateService = taskStateService;
         this.timeSpentService = timeSpentService;
         this.postService = postService;
@@ -45,26 +44,26 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     }
 
     public void addLabel(Long taskId, Long labelId) {
-        Label label = labelService.getOneById(labelId, new PatchError());
+        TaskLabel taskLabel = taskLabelService.getOneById(labelId, new PatchError());
         Task task = getOneById(taskId, new PatchError());
 
-        task.addLabel(label);
+        task.addLabel(taskLabel);
 
         repository.saveAndFlush(task);
     }
 
     public void removeLabel(Long taskId, Long labelId) {
-        Label label = labelService.getOneById(labelId, new PatchError());
+        TaskLabel taskLabel = taskLabelService.getOneById(labelId, new PatchError());
         Task task = getOneById(taskId, new PatchError());
 
-        task.removeLabel(label);
+        task.removeLabel(taskLabel);
 
         repository.saveAndFlush(task);
     }
 
-    public Set<Label> getAllLabels(Long id) {
+    public Set<TaskLabel> getAllLabels(Long id) {
         Task task = getOneById(id);
-        return task.getLabels();
+        return task.getTaskLabels();
     }
 
     public void setState(Long taskId, Long stateId) {
