@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,9 +16,12 @@ import java.util.List;
 @Setter
 public class Post extends AbstractEntity {
 
-
+    @Column(name = "name")
+    private String name;
     @Column(name = "content")
     private String content;
+    @Column
+    private LocalDateTime postDate;
 
     @ManyToMany
     private List<Channel> channel;

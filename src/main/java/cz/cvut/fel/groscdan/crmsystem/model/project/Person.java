@@ -27,8 +27,8 @@ public class Person extends AbstractPerson {
 
     public Person(User user) {
         super();
-        login = user.getUsername();
-        email = user.getEmail();
+        this.login = user.getUsername();
+        this.email = user.getEmail();
         this.user = user;
     }
 

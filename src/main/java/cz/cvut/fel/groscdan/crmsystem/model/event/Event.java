@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Event extends AbstractEntity {
-    @Column
+    @Column(length = 1000)
     private String description;
 
     @Column

@@ -40,9 +40,9 @@ public class Task extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "task_labels",
+            name = "tasks_labels",
             joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "labels_id")
+            inverseJoinColumns = @JoinColumn(name = "label_id")
     )
     @ToString.Exclude
     private Set<TaskLabel> taskLabels;

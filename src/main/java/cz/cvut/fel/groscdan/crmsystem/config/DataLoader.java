@@ -1,9 +1,6 @@
 package cz.cvut.fel.groscdan.crmsystem.config;
 
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
-import cz.cvut.fel.groscdan.crmsystem.model.channel.PostState;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.*;
 import cz.cvut.fel.groscdan.crmsystem.model.event.Event;
 import cz.cvut.fel.groscdan.crmsystem.model.event.EventType;
 import cz.cvut.fel.groscdan.crmsystem.model.project.*;
@@ -13,10 +10,8 @@ import cz.cvut.fel.groscdan.crmsystem.security.model.User;
 import cz.cvut.fel.groscdan.crmsystem.security.model.UserRole;
 import cz.cvut.fel.groscdan.crmsystem.security.repository.UserRoleRepository;
 import cz.cvut.fel.groscdan.crmsystem.security.service.UserService;
-import cz.cvut.fel.groscdan.crmsystem.service.channel.AudienceService;
-import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
-import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelTypeService;
-import cz.cvut.fel.groscdan.crmsystem.service.channel.PostStateService;
+import cz.cvut.fel.groscdan.crmsystem.service.channel.*;
+import cz.cvut.fel.groscdan.crmsystem.service.event.EventService;
 import cz.cvut.fel.groscdan.crmsystem.service.event.EventTypeService;
 import cz.cvut.fel.groscdan.crmsystem.service.project.*;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -51,6 +45,9 @@ public class DataLoader implements ApplicationRunner {
     private final TaskLabelService taskLabelService;
     private final AudienceService audienceService;
     private final ChannelService channelService;
+    private final EventService eventService;
+    private final PostService postService;
+    private final TaskService taskService;
     User admin;
     User moderator;
     User user;
@@ -60,7 +57,8 @@ public class DataLoader implements ApplicationRunner {
                       UserRoleRepository userRoleRepository, EventTypeService eventTypeService, ProjectService projectService,
                       ProjectStateService projectStateService, PostStateService postStateService, TaskStateService taskStateService,
                       ProjectTypeService projectTypeService, ChannelTypeService channelTypeService, TaskLabelService taskLabelService,
-                      AudienceService audienceService, ChannelService channelService) {
+                      AudienceService audienceService, ChannelService channelService, EventService eventService, PostService postService,
+                      TaskService taskService) {
         this.postRepository = tutorialRepository;
         this.userService = userService;
         this.personService = personService;
@@ -76,6 +74,9 @@ public class DataLoader implements ApplicationRunner {
         this.taskLabelService = taskLabelService;
         this.audienceService = audienceService;
         this.channelService = channelService;
+        this.eventService = eventService;
+        this.postService = postService;
+        this.taskService = taskService;
     }
 
     public void run(ApplicationArguments args) {
@@ -84,24 +85,128 @@ public class DataLoader implements ApplicationRunner {
         createUsers();
 
 
-        createPerson(user, "John", "Wick", "+420 123 456 789");
-        createPerson(moderator, "Winston", "Scott", "+420 456 789 123");
-        createPerson(admin, "Santino", "D'Antonio", "+420 789 123 567");
+        Person us = createPerson(user, "John", "Wick", "+420 123 456 789");
+        Person mod = createPerson(moderator, "Winston", "Scott", "+420 456 789 123");
+        Person ad = createPerson(admin, "Santino", "D'Antonio", "+420 789 123 567");
 
         List<ProjectState> projectStates = createProjectStates();
         List<PostState> postStates = createPostStates();
         List<TaskState> taskStates = createTaskStates();
 
         List<ProjectType> projectTypes = createProjectTypes();
-        List<TaskLabel> taskTaskLabels = createTaskLabels();
+        List<TaskLabel> taskLabels = createTaskLabels();
         List<ChannelType> channelChannelTypes = createChannelTypes();
         List<EventType> eventTypes = createEventTypes();
 
-        List<Event> events = createEvents(eventTypes);
-        Project project = createProject(projectStates.get(0), projectTypes);
+        Project project = createProject(projectStates.get(0), projectTypes, mod);
+        List<Event> events = createEvents(eventTypes, project);
 
         List<Audience> audiences = createAudiences();
         List<Channel> channels = createChannels(audiences, project);
+        List<Task> tasks = createTasks(us, mod, taskStates, taskLabels, project);
+        List<Post> posts = createPosts(channels, us, postStates, tasks);
+
+    }
+
+    private List<Task> createTasks(Person us, Person mod, List<TaskState> taskStates, List<TaskLabel> taskLabels, Project project) {
+        List<Task> tasks = new ArrayList<>();
+
+        Task task = new Task();
+        task.setAssignedPerson(mod);
+        task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(3), taskLabels.get(2))));
+        task.setProject(project);
+        task.setName("Review post");
+        task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
+        task.setState(taskStates.get(2));
+        task.setDescription("Need to review the post for the event.");
+        task.setPriority(1);
+        task.setCreatedByPerson(mod);
+        tasks.add(task);
+
+        task = new Task();
+        task.setAssignedPerson(mod);
+        task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(1))));
+        task.setProject(project);
+        task.setName("Write the post");
+        task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
+        task.setState(taskStates.get(1));
+        task.setDescription("Need to write the post for the event.");
+        task.setPriority(1);
+        task.setCreatedByPerson(us);
+        tasks.add(task);
+
+        task = new Task();
+        task.setAssignedPerson(mod);
+        task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(3), taskLabels.get(2))));
+        task.setProject(project);
+        task.setName("Create email response");
+        task.setDeadline(LocalDateTime.of(2023, 5, 20, 11, 0));
+        task.setState(taskStates.get(0));
+        task.setDescription("Create email response for people who appliend for study at CTU.");
+        task.setCreatedByPerson(mod);
+        task.setPriority(1);
+        tasks.add(task);
+
+        task = new Task();
+        task.setAssignedPerson(mod);
+        task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(0))));
+        task.setProject(project);
+        task.setName("Create budget");
+        task.setDeadline(LocalDateTime.of(2023, 4, 20, 11, 0));
+        task.setState(taskStates.get(4));
+        task.setDescription("Need to create the budget prediction and planes for spending resources.");
+        task.setCreatedByPerson(mod);
+        task.setPriority(1);
+        tasks.add(task);
+
+        task = new Task();
+        task.setAssignedPerson(mod);
+        task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(3), taskLabels.get(2))));
+        task.setProject(project);
+        task.setName("Review the campaign results");
+        task.setState(taskStates.get(3));
+        task.setDescription("Create review of the campaign result and organise lessons learned.");
+        task.setCreatedByPerson(mod);
+        task.setPriority(3);
+        tasks.add(task);
+
+        return taskService.create(tasks);
+    }
+
+    private List<Post> createPosts(List<Channel> channels, Person user, List<PostState> postStates, List<Task> tasks) {
+        List<Post> posts = new ArrayList<>();
+
+        Post post = new Post();
+        post.setName("Lets study FEE");
+        post.setContent("Let's go to study FEE.");
+        post.setChannel(List.of(channels.get(0), channels.get(1), channels.get(2)));
+        post.setPostState(postStates.get(0));
+        post.setAuthor(user);
+        post.setTasks(List.of(tasks.get(0), tasks.get(1)));
+        post.setPostDate(LocalDateTime.of(2023, 6, 25, 11, 00));
+        posts.add(post);
+
+        post = new Post();
+        post.setName("Best in the world");
+        post.setContent("Wanna be the best in the world? Lets check our programmes.");
+        post.setChannel(List.of(channels.get(0), channels.get(1), channels.get(2)));
+        post.setPostState(postStates.get(4));
+        post.setAuthor(user);
+        post.setTasks(List.of(tasks.get(0), tasks.get(1)));
+        post.setPostDate(LocalDateTime.of(2023, 5, 25, 11, 00));
+        posts.add(post);
+
+        post = new Post();
+        post.setName("End of the year");
+        post.setContent("The year comes to its end. Let's celebrate together at he school year party.");
+        post.setChannel(List.of(channels.get(2)));
+        post.setPostState(postStates.get(2));
+        post.setAuthor(user);
+        post.setPostDate(LocalDateTime.of(2023, 6, 25, 11, 00));
+        posts.add(post);
+
+
+        return postService.create(posts);
     }
 
     private List<Channel> createChannels(List<Audience> audiences, Project project) {
@@ -260,6 +365,11 @@ public class DataLoader implements ApplicationRunner {
         taskState.setDescription("State for postponed tasks.");
         taskStates.add(taskState);
 
+        taskState = new TaskState();
+        taskState.setName("Done");
+        taskState.setDescription("State for done tasks.");
+        taskStates.add(taskState);
+
         return taskStateService.create(taskStates);
     }
 
@@ -284,6 +394,11 @@ public class DataLoader implements ApplicationRunner {
         postState = new PostState();
         postState.setName("Posted");
         postState.setDescription("Post is posted.");
+        postStates.add(postState);
+
+        postState = new PostState();
+        postState.setName("Cancelled");
+        postState.setDescription("Post is cancelled.");
         postStates.add(postState);
 
         return postStateService.create(postStates);
@@ -315,20 +430,20 @@ public class DataLoader implements ApplicationRunner {
         return projectStateService.create(projectStates);
     }
 
-    private Project createProject(ProjectState projectState, List<ProjectType> projectTypes) {
+    private Project createProject(ProjectState projectState, List<ProjectType> projectTypes, Person mod) {
         Project project = new Project();
 
         project.setName("2023 - study applications");
         project.setDescription("Goal of the project is to get at least 1000 applications for studying programmes on CTU FEE. " +
                 "Budget is set to 200 000 CZK.");
         project.setDeadline(LocalDateTime.of(2023, 8, 31, 23, 59));
-        project.setManager(personService.getOneById(moderator.getId()));
+        project.setManager(personService.getOneById(mod.getId()));
         project.setProjectState(projectState);
         project.addProjectType(projectTypes.get(0));
         return projectService.create(project);
     }
 
-    private List<Event> createEvents(List<EventType> eventTypes) {
+    private List<Event> createEvents(List<EventType> eventTypes, Project project) {
         List<Event> events = new ArrayList<>();
 
         Event event = new Event();
@@ -344,6 +459,7 @@ public class DataLoader implements ApplicationRunner {
         event.setStartDate(LocalDateTime.of(2023, 7, 1, 10, 0));
         event.setEndDate(LocalDateTime.of(2023, 7, 1, 16, 0));
         event.setEventTypes(new HashSet<>(eventTypes));
+        event.setProject(project);
         events.add(event);
 
         event.setName("Open day 2");
@@ -358,9 +474,10 @@ public class DataLoader implements ApplicationRunner {
         event.setStartDate(LocalDateTime.of(2023, 8, 1, 10, 0));
         event.setEndDate(LocalDateTime.of(2023, 8, 1, 16, 0));
         event.setEventTypes(new HashSet<>(eventTypes));
+        event.setProject(project);
         events.add(event);
 
-        return events;
+        return eventService.create(events);
     }
 
     private List<EventType> createEventTypes() {
@@ -399,12 +516,12 @@ public class DataLoader implements ApplicationRunner {
         userService.create(user);
     }
 
-    private void createPerson(User user, String name, String surname, String phone) {
+    private Person createPerson(User user, String name, String surname, String phone) {
         Person person = new Person(user);
         person.setName(name);
         person.setSurname(surname);
         person.setPhone(phone);
 
-        personService.create(person);
+        return personService.create(person);
     }
 }
