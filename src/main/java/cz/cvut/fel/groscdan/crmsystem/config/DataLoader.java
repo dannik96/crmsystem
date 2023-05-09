@@ -22,9 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Log4j2
@@ -102,7 +100,7 @@ public class DataLoader implements ApplicationRunner {
         List<Event> events = createEvents(eventTypes, project);
 
         List<Audience> audiences = createAudiences();
-        List<Channel> channels = createChannels(audiences, project);
+        List<Channel> channels = createChannels(audiences, project, channelChannelTypes);
         List<Task> tasks = createTasks(us, mod, taskStates, taskLabels, project);
         List<Post> posts = createPosts(channels, us, postStates, tasks);
 
@@ -209,7 +207,7 @@ public class DataLoader implements ApplicationRunner {
         return postService.create(posts);
     }
 
-    private List<Channel> createChannels(List<Audience> audiences, Project project) {
+    private List<Channel> createChannels(List<Audience> audiences, Project project, List<ChannelType> channelChannelTypes) {
         List<Channel> channels = new ArrayList<>();
 
         Channel channel = new Channel();
@@ -218,6 +216,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setLocation("Facebook");
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
+        channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
         channels.add(channel);
 
         channel = new Channel();
@@ -226,6 +225,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setLocation("Instagram");
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
+        channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
         channels.add(channel);
 
         channel = new Channel();
@@ -234,6 +234,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setLocation("Google");
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
+        channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
         channels.add(channel);
 
         channel = new Channel();
@@ -242,6 +243,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setLocation("Dejvice");
         channel.setAudiences(new HashSet<>(List.of(audiences.get(2))));
         channel.addProject(project);
+        channel.setChannelTypes(Set.of(channelChannelTypes.get(2), channelChannelTypes.get(3)));
         channels.add(channel);
 
         return channelService.create(channels);
@@ -436,6 +438,7 @@ public class DataLoader implements ApplicationRunner {
         project.setName("2023 - study applications");
         project.setDescription("Goal of the project is to get at least 1000 applications for studying programmes on CTU FEE. " +
                 "Budget is set to 200 000 CZK.");
+        project.setStart(LocalDateTime.of(2023, 2, 28, 10, 00));
         project.setDeadline(LocalDateTime.of(2023, 8, 31, 23, 59));
         project.setManager(personService.getOneById(mod.getId()));
         project.setProjectState(projectState);
