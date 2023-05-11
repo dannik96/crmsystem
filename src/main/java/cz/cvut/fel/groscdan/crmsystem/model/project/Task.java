@@ -2,6 +2,7 @@ package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
+
 import javax.persistence.*;
 
 import lombok.Getter;
@@ -34,8 +35,7 @@ public class Task extends AbstractEntity {
     @Column
     private Integer priority;
 
-    @ManyToMany
-    @ToString.Exclude
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.LAZY)
     private Set<Post> posts;
 
     @ManyToMany
@@ -44,7 +44,6 @@ public class Task extends AbstractEntity {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
-    @ToString.Exclude
     private Set<TaskLabel> taskLabels;
 
     @ManyToOne

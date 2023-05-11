@@ -142,4 +142,10 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
             throw new PatchError();
         }
     }
+
+    public Set<Post> getTaskPosts(Long taskId) {
+        Task task = getOneById(taskId);
+
+        return task.getPosts();
+    }
 }

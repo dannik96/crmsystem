@@ -1,10 +1,15 @@
 package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 
 @Entity
+@Getter
+@Setter
 @Table(name = "comment")
 public class Comment extends AbstractEntity {
 

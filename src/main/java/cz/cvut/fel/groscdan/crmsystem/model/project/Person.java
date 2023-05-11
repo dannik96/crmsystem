@@ -1,6 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.model.project;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractPerson;
+
 import javax.persistence.*;
 
 import cz.cvut.fel.groscdan.crmsystem.security.model.User;
@@ -11,14 +12,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
+@Getter()
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Person extends AbstractPerson {
 
-    @ManyToMany
-    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Task> tasks;
 
     @OneToOne
@@ -30,6 +29,16 @@ public class Person extends AbstractPerson {
         this.login = user.getUsername();
         this.email = user.getEmail();
         this.user = user;
+    }
+
+    public Person(Long id, String email, String login, String name, String surname, String phone) {
+        super();
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
     }
 
     public void addTask(Task task) {

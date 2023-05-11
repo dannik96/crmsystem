@@ -18,6 +18,4 @@ public interface CommentMapper {
     List<Comment> commentDtoToComment(List<CommentDto> commentDto);
 
     List<CommentDto> commentToCommentDto(List<Comment> comment);
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Comment updateCommentFromCommentDto(CommentDto commentDto, @MappingTarget Comment comment);
 }

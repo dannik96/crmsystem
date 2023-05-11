@@ -1,4 +1,4 @@
-package cz.cvut.fel.groscdan.crmsystem.controller.mappers;
+package cz.cvut.fel.groscdan.crmsystem.controller.mappers.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.PersonDto;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Person;

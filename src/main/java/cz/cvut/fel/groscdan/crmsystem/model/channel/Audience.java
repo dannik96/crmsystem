@@ -23,7 +23,7 @@ public class Audience extends AbstractEntity {
     @Column
     private String description;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "audiences", fetch = FetchType.LAZY)
     private Set<Channel> channels;
 
     @ManyToMany

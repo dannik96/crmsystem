@@ -177,7 +177,7 @@ public class DataLoader implements ApplicationRunner {
         Post post = new Post();
         post.setName("Lets study FEE");
         post.setContent("Let's go to study FEE.");
-        post.setChannel(List.of(channels.get(0), channels.get(1), channels.get(2)));
+        post.setChannels(List.of(channels.get(0), channels.get(1), channels.get(2)));
         post.setPostState(postStates.get(0));
         post.setAuthor(user);
         post.setTasks(List.of(tasks.get(0), tasks.get(1)));
@@ -187,7 +187,7 @@ public class DataLoader implements ApplicationRunner {
         post = new Post();
         post.setName("Best in the world");
         post.setContent("Wanna be the best in the world? Lets check our programmes.");
-        post.setChannel(List.of(channels.get(0), channels.get(1), channels.get(2)));
+        post.setChannels(List.of(channels.get(0), channels.get(1), channels.get(2)));
         post.setPostState(postStates.get(4));
         post.setAuthor(user);
         post.setTasks(List.of(tasks.get(0), tasks.get(1)));
@@ -197,7 +197,7 @@ public class DataLoader implements ApplicationRunner {
         post = new Post();
         post.setName("End of the year");
         post.setContent("The year comes to its end. Let's celebrate together at he school year party.");
-        post.setChannel(List.of(channels.get(2)));
+        post.setChannels(List.of(channels.get(2)));
         post.setPostState(postStates.get(2));
         post.setAuthor(user);
         post.setPostDate(LocalDateTime.of(2023, 6, 25, 11, 00));

@@ -17,9 +17,11 @@ public interface EventMapper {
     EventDto eventToEventDto(Event event);
 
     List<Event> eventDtoToEvent(List<EventDto> eventDto);
+
     List<EventDto> eventToEventDto(List<Event> event);
 
     Set<Event> eventDtoToEvent(Set<EventDto> eventDto);
+
     Set<EventDto> eventToEventDto(Set<Event> event);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

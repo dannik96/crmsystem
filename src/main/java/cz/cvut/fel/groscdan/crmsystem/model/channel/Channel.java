@@ -41,7 +41,7 @@ public class Channel extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "channel_audience",
+            name = "audience_channels",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "audience_id"))
     private Set<Audience> audiences;

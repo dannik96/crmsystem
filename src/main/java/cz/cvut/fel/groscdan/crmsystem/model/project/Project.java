@@ -24,13 +24,16 @@ public class Project extends AbstractEntity {
     private LocalDateTime deadline;
 
     @Column
+    private LocalDateTime start;
+
+    @Column
     private String description;
 
     @Column
     private String name;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private Person manager;
 

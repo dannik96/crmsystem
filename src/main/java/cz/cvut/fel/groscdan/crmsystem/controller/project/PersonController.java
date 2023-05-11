@@ -2,7 +2,7 @@ package cz.cvut.fel.groscdan.crmsystem.controller.project;
 
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.PersonDto;
-import cz.cvut.fel.groscdan.crmsystem.controller.mappers.PersonMapper;
+import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.PersonMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
 import cz.cvut.fel.groscdan.crmsystem.service.project.PersonService;
 import org.mapstruct.factory.Mappers;

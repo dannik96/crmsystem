@@ -1,10 +1,14 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.project;
 
 
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.PostDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TimeSpentDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
-import cz.cvut.fel.groscdan.crmsystem.controller.mappers.PersonMapper;
+import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
+import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.PersonMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.*;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.service.project.TaskService;
 import org.mapstruct.factory.Mappers;
@@ -27,6 +31,7 @@ public class TaskController{
     private final TaskStateMapper taskStateMapper = Mappers.getMapper(TaskStateMapper.class);
     private final CommentMapper commentMapper = Mappers.getMapper(CommentMapper.class);
     private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
+    private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
 
 
 
@@ -101,7 +106,7 @@ public class TaskController{
     }
 
     @GetMapping("/{id}/spent-time")
-    public ResponseEntity<?> getTaskTimeSpent(@PathVariable Long id) {
+    public ResponseEntity<List<TimeSpentDto>> getTaskTimeSpent(@PathVariable Long id) {
         List<TimeSpent> timeSpent = taskService.getTimeSpent(id);
         return new ResponseEntity<>(timeSpentMapper.timeSpentToTimeSpentDto(timeSpent), HttpStatus.OK);
     }
@@ -121,8 +126,14 @@ public class TaskController{
     // comments
     @GetMapping("/{taskId}/comments")
     public ResponseEntity<?> getTaskComments(@PathVariable Long taskId) {
-        List<Comment> timeSpent = taskService.getTaskComments(taskId);
-        return new ResponseEntity<>(commentMapper.commentToCommentDto(timeSpent), HttpStatus.OK);
+        List<Comment> comments = taskService.getTaskComments(taskId);
+        return new ResponseEntity<>(commentMapper.commentToCommentDto(comments), HttpStatus.OK);
+    }
+
+    @GetMapping("/{taskId}/posts")
+    public ResponseEntity<Set<PostDto>> getTaskPosts(@PathVariable Long taskId) {
+        Set<Post> posts = taskService.getTaskPosts(taskId);
+        return new ResponseEntity<>(postMapper.postToPostDto(posts), HttpStatus.OK);
     }
 
     // assignee

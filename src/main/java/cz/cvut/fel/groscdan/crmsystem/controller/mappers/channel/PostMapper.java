@@ -14,7 +14,6 @@ public interface PostMapper {
     PostDto postToPostDto(Post post);
 
 
-
     Set<Post> postDtoToPost(Set<PostDto> postDto);
 
     Set<PostDto> postToPostDto(Set<Post> post);

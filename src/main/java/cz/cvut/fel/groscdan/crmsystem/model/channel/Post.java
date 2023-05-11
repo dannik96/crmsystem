@@ -24,7 +24,7 @@ public class Post extends AbstractEntity {
     private LocalDateTime postDate;
 
     @ManyToMany
-    private List<Channel> channel;
+    private List<Channel> channels;
 
     @ManyToMany
     @JoinTable(
