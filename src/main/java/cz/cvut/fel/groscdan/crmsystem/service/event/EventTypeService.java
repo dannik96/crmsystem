@@ -13,6 +13,8 @@ public class EventTypeService extends AbstractService<EventTypeRepository, Event
 
     @Override
     protected EventType updateExisting(EventType existingRecord, EventType record) {
-        return null;
+        existingRecord.setDescription(record.getDescription());
+        existingRecord.setName(record.getName());
+        return repository.saveAndFlush(existingRecord);
     }
 }

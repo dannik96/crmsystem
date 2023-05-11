@@ -13,6 +13,8 @@ public class ProjectStateService extends AbstractService<ProjectStateRepository,
 
     @Override
     protected ProjectState updateExisting(ProjectState existingRecord, ProjectState record) {
-        return null;
+        existingRecord.setName(record.getName());
+        existingRecord.setDescription(record.getDescription());
+        return repository.saveAndFlush(existingRecord);
     }
 }

@@ -14,6 +14,8 @@ public class TaskLabelService extends AbstractService<TaskLabelRepository, TaskL
 
     @Override
     protected TaskLabel updateExisting(TaskLabel existingRecord, TaskLabel record) {
-        return null;
+        existingRecord.setName(record.getName());
+        existingRecord.setDescription(record.getDescription());
+        return repository.saveAndFlush(existingRecord);
     }
 }

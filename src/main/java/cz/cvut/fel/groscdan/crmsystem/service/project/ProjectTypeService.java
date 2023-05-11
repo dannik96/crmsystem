@@ -14,6 +14,8 @@ public class ProjectTypeService extends AbstractService<ProjectTypeRepository, P
 
     @Override
     protected ProjectType updateExisting(ProjectType existingRecord, ProjectType record) {
-        return null;
+        existingRecord.setName(record.getName());
+        existingRecord.setDescription(record.getDescription());
+        return repository.saveAndFlush(existingRecord);
     }
 }

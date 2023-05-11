@@ -14,7 +14,8 @@ public class PostStateService extends AbstractService<PostStateRepository, PostS
 
     @Override
     protected PostState updateExisting(PostState existingRecord, PostState record) {
-        // TODO
+        existingRecord.setName(record.getName());
+        existingRecord.setDescription(record.getDescription());
         return null;
     }
 }

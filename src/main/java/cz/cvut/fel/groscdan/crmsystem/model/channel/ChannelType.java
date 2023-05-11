@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "chanel_types")
+@Table(name = "channel_types")
 @Getter
 @Setter
 public class ChannelType extends AbstractState {

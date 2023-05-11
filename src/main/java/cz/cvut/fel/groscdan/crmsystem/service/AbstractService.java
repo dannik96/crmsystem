@@ -5,6 +5,7 @@ import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,12 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
         return new ArrayList<>(repository.findAll());
     }
 
+    @Transactional
     public E update(E record) {
         if (!repository.existsById(record.getId())) {
             return create(record);
         }
-        E existingRecord = repository.getReferenceById(record.getId());
+        E existingRecord = repository.findById(record.getId()).get();
         existingRecord.setModified(LocalDateTime.now());
         return updateExisting(existingRecord, record);
     }
