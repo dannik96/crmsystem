@@ -115,7 +115,7 @@ public class DataLoader implements ApplicationRunner {
         task.setProject(project);
         task.setName("Review post");
         task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
-        task.setState(taskStates.get(2));
+        task.setTaskState(taskStates.get(2));
         task.setDescription("Need to review the post for the event.");
         task.setPriority(1);
         task.setCreatedByPerson(mod);
@@ -127,7 +127,7 @@ public class DataLoader implements ApplicationRunner {
         task.setProject(project);
         task.setName("Write the post");
         task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
-        task.setState(taskStates.get(1));
+        task.setTaskState(taskStates.get(1));
         task.setDescription("Need to write the post for the event.");
         task.setPriority(1);
         task.setCreatedByPerson(us);
@@ -139,7 +139,7 @@ public class DataLoader implements ApplicationRunner {
         task.setProject(project);
         task.setName("Create email response");
         task.setDeadline(LocalDateTime.of(2023, 5, 20, 11, 0));
-        task.setState(taskStates.get(0));
+        task.setTaskState(taskStates.get(0));
         task.setDescription("Create email response for people who appliend for study at CTU.");
         task.setCreatedByPerson(mod);
         task.setPriority(1);
@@ -151,7 +151,7 @@ public class DataLoader implements ApplicationRunner {
         task.setProject(project);
         task.setName("Create budget");
         task.setDeadline(LocalDateTime.of(2023, 4, 20, 11, 0));
-        task.setState(taskStates.get(4));
+        task.setTaskState(taskStates.get(4));
         task.setDescription("Need to create the budget prediction and planes for spending resources.");
         task.setCreatedByPerson(mod);
         task.setPriority(1);
@@ -162,7 +162,7 @@ public class DataLoader implements ApplicationRunner {
         task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(3), taskLabels.get(2))));
         task.setProject(project);
         task.setName("Review the campaign results");
-        task.setState(taskStates.get(3));
+        task.setTaskState(taskStates.get(3));
         task.setDescription("Create review of the campaign result and organise lessons learned.");
         task.setCreatedByPerson(mod);
         task.setPriority(3);

@@ -14,6 +14,11 @@ import java.util.List;
 @Setter
 public class EventType extends AbstractState {
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "eventTypes")
     private List<Event> events;
+
+    public void removeEventType(Event event) {
+        events.remove(event);
+        event.removeEventType(this);
+    }
 }

@@ -70,7 +70,7 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
         Task task = getOneById(taskId, new PatchError());
         TaskState taskState = taskStateService.getOneById(stateId, new PatchError());
 
-        task.setState(taskState);
+        task.setTaskState(taskState);
 
         repository.saveAndFlush(task);
     }
@@ -80,7 +80,7 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
 
         repository.saveAndFlush(task);
 
-        return task.getState();
+        return task.getTaskState();
     }
 
     public List<TimeSpent> getTimeSpent(Long id) {

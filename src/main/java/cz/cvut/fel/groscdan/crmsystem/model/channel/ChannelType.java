@@ -1,6 +1,5 @@
 package cz.cvut.fel.groscdan.crmsystem.model.channel;
 
-import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import javax.persistence.*;
 
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractState;
@@ -15,6 +14,11 @@ import java.util.List;
 @Setter
 public class ChannelType extends AbstractState {
 
-    @ManyToMany
-    private List<Channel> channel;
+    @ManyToMany(mappedBy = "channelTypes")
+    private List<Channel> channels;
+
+    public void removeChannel(Channel channel) {
+        channels.remove(channel);
+        channel.removeType(this);
+    }
 }

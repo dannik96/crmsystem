@@ -48,7 +48,7 @@ public class Task extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "state_id")
-    private TaskState state;
+    private TaskState taskState;
 
     @ManyToOne
     @JoinColumn(name = "project_id")

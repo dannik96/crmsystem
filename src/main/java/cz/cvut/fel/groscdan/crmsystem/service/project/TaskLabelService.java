@@ -1,9 +1,15 @@
 package cz.cvut.fel.groscdan.crmsystem.service.project;
 
+import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
+import cz.cvut.fel.groscdan.crmsystem.model.event.Event;
+import cz.cvut.fel.groscdan.crmsystem.model.event.EventType;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Task;
 import cz.cvut.fel.groscdan.crmsystem.model.project.TaskLabel;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.TaskLabelRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TaskLabelService extends AbstractService<TaskLabelRepository, TaskLabel> {
@@ -17,5 +23,13 @@ public class TaskLabelService extends AbstractService<TaskLabelRepository, TaskL
         existingRecord.setName(record.getName());
         existingRecord.setDescription(record.getDescription());
         return repository.saveAndFlush(existingRecord);
+    }
+
+    @Override
+    public void delete(Long id) throws DeleteError {
+        TaskLabel taskLabel = getOneById(id, new DeleteError());
+        List<Task> tasks = taskLabel.getTasks().stream().toList();
+        tasks.forEach(taskLabel::removeTaskLabel);
+        repository.delete(taskLabel);
     }
 }
