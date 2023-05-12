@@ -108,4 +108,16 @@ public class ProjectController {
         projectService.setType(idProject, typeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PatchMapping("/{idProject}/set-manager/{managerId}")
+    public ResponseEntity<?> setManager(@PathVariable Long idProject, @PathVariable Long managerId) {
+        projectService.setManager(idProject, managerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{idProject}/unset-manager")
+    public ResponseEntity<?> setManager(@PathVariable Long idProject) {
+        projectService.setManager(idProject, null);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

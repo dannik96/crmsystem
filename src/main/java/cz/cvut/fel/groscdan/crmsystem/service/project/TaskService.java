@@ -121,8 +121,13 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     public void setAssignee(Long taskId, Long assigneeId) {
         Task task = getOneById(taskId, new PatchError());
         Person person = personService.getOneById(assigneeId, new PatchError());
+        if (assigneeId != null) {
+            person = personService.getOneById(assigneeId, new PatchError());
+        }
 
         task.setAssignedPerson(person);
+
+        repository.saveAndFlush(task);
     }
 
     public List<Task> getProjectTasks(Long id) {

@@ -158,4 +158,16 @@ public class TaskController{
     }
 
 
+    @PatchMapping("/{idProject}/set-assignee/{managerId}")
+    public ResponseEntity<?> setManager(@PathVariable Long idProject, @PathVariable Long managerId) {
+        taskService.setAssignee(idProject, managerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{idProject}/unset-assignee")
+    public ResponseEntity<?> setManager(@PathVariable Long idProject) {
+        taskService.setAssignee(idProject, null);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

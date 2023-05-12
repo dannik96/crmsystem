@@ -2,6 +2,7 @@ package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
 import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectType;
@@ -16,12 +17,14 @@ public class ProjectService extends AbstractService<ProjectRepository, Project> 
     private final ChannelService channelService;
     private final ProjectStateService projectStateService;
     private final ProjectTypeService projectTypeService;
+    private final PersonService personService;
 
-    public ProjectService(ProjectRepository repository, ChannelService channelService, ProjectStateService projectStateService, ProjectTypeService projectTypeService) {
+    public ProjectService(ProjectRepository repository, ChannelService channelService, ProjectStateService projectStateService, ProjectTypeService projectTypeService, PersonService personService) {
         super(repository, "Project");
         this.channelService = channelService;
         this.projectStateService = projectStateService;
         this.projectTypeService = projectTypeService;
+        this.personService = personService;
     }
 
     // TODO
@@ -67,6 +70,18 @@ public class ProjectService extends AbstractService<ProjectRepository, Project> 
         ProjectType projectType = projectTypeService.getOneById(typeId, new PatchError());
 
         project.setProjectType(projectType);
+
+        repository.saveAndFlush(project);
+    }
+
+    public void setManager(Long idProject, Long managerId) {
+        Project project = getOneById(idProject, new PatchError());
+        Person person = null;
+        if (managerId != null) {
+             person = personService.getOneById(managerId, new PatchError());
+        }
+
+        project.setManager(person);
 
         repository.saveAndFlush(project);
     }
