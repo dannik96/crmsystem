@@ -95,4 +95,17 @@ public class ProjectController {
         projectService.removeChannel(idProject, idChannel);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    @PatchMapping("/{idProject}/set-state/{stateId}")
+    public ResponseEntity<?> setState(@PathVariable Long idProject, @PathVariable Long stateId) {
+        projectService.setState(idProject, stateId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{idProject}/set-type/{typeId}")
+    public ResponseEntity<?> setType(@PathVariable Long idProject, @PathVariable Long typeId) {
+        projectService.setType(idProject, typeId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
