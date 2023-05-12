@@ -24,6 +24,7 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     public List<E> create(List<E> records) {
         List<E> createdRecords = new ArrayList<>();
         for (E record : records) {
+            record.setDeleted(false);
             record.setCreated(LocalDateTime.now());
             record.setModified(LocalDateTime.now());
             createdRecords.add(repository.saveAndFlush(record));
@@ -32,6 +33,7 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     }
 
     public E create(E record) {
+        record.setDeleted(false);
         record.setCreated(LocalDateTime.now());
         record.setModified(LocalDateTime.now());
         return repository.saveAndFlush(record);
@@ -52,19 +54,25 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     }
 
     public E getOneById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + name + " with " + id + " not found."));
+        E entity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + name + " with " + id + " not found."));
+        if (entity.getDeleted()) {
+            throw new EntityNotFoundException("Entity " + name + " with " + id + " not found.");
+        }
+        return entity;
     }
 
     public E getOneById(Long id, RuntimeException runtimeException) {
-        return repository.findById(id).orElseThrow(() -> runtimeException);
+        E entity = repository.findById(id).orElseThrow(() -> runtimeException);
+        if (entity.getDeleted()) {
+            throw new EntityNotFoundException("Entity " + name + " with " + id + " not found.");
+        }
+        return entity;
     }
 
     public void delete(Long id) throws DeleteError {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return;
-        }
-        throw new DeleteError();
+        E entity = getOneById(id, new DeleteError());
+        entity.setDeleted(true);
+        repository.saveAndFlush(entity);
     }
 
     protected abstract E updateExisting(E existingRecord, E record);

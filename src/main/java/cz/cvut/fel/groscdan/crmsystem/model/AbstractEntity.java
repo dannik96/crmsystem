@@ -16,6 +16,9 @@ public abstract class AbstractEntity {
     protected Long id;
 
     @Column
+    protected Boolean deleted = false;
+
+    @Column
     protected LocalDateTime created;
 
     @Column
