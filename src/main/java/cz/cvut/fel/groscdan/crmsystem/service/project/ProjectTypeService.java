@@ -27,14 +27,4 @@ public class ProjectTypeService extends AbstractService<ProjectTypeRepository, P
         return repository.saveAndFlush(existingRecord);
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        ProjectType projectType = getOneById(id, new DeleteError());
-        List<Project> projects = projectRepository.findByProjectType(projectType);
-        projects.forEach(project -> {
-            project.setProjectType(null);
-            projectRepository.saveAndFlush(project);
-        });
-        repository.delete(projectType);
-    }
 }

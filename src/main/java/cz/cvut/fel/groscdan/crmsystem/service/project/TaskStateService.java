@@ -27,14 +27,4 @@ public class TaskStateService extends AbstractService<TaskStateRepository, TaskS
         return repository.saveAndFlush(existingRecord);
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        TaskState taskState = getOneById(id, new DeleteError());
-        List<Task> taskStates = taskRepository.findByTaskState(taskState);
-        taskStates.forEach(task -> {
-            task.setTaskState(null);
-            taskRepository.saveAndFlush(task);
-        });
-        repository.delete(taskState);
-    }
 }

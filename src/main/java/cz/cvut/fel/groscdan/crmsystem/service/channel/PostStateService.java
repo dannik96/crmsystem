@@ -21,17 +21,6 @@ public class PostStateService extends AbstractService<PostStateRepository, PostS
     }
 
     @Override
-    public void delete(Long id) throws DeleteError {
-        PostState postState = getOneById(id, new DeleteError());
-        List<Post> posts = postRepository.findByPostState(postState);
-        posts.forEach(post -> {
-            post.setPostState(null);
-            postRepository.saveAndFlush(post);
-        });
-        repository.delete(postState);
-    }
-
-    @Override
     protected PostState updateExisting(PostState existingRecord, PostState record) {
         existingRecord.setName(record.getName());
         existingRecord.setDescription(record.getDescription());

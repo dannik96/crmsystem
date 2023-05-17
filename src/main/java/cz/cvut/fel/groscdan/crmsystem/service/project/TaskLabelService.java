@@ -25,11 +25,4 @@ public class TaskLabelService extends AbstractService<TaskLabelRepository, TaskL
         return repository.saveAndFlush(existingRecord);
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        TaskLabel taskLabel = getOneById(id, new DeleteError());
-        List<Task> tasks = taskLabel.getTasks().stream().toList();
-        tasks.forEach(taskLabel::removeTaskLabel);
-        repository.delete(taskLabel);
-    }
 }

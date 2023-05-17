@@ -28,11 +28,4 @@ public class ChannelTypeService extends AbstractService<ChannelTypeRepository, C
         return repository.saveAndFlush(existingRecord);
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        ChannelType channelType = getOneById(id, new DeleteError());
-        List<Channel> channelList = channelType.getChannels().stream().toList();
-        channelList.forEach(channelType::removeChannel);
-        repository.delete(channelType);
-    }
 }

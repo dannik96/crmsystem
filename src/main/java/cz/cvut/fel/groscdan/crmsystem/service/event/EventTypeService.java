@@ -24,11 +24,4 @@ public class EventTypeService extends AbstractService<EventTypeRepository, Event
         return repository.saveAndFlush(existingRecord);
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        EventType eventType = getOneById(id, new DeleteError());
-        List<Event> events = eventType.getEvents().stream().toList();
-        events.forEach(eventType::removeEventType);
-        repository.delete(eventType);
-    }
 }

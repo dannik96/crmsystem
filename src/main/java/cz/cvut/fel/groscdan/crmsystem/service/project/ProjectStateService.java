@@ -20,16 +20,6 @@ public class ProjectStateService extends AbstractService<ProjectStateRepository,
         this.projectRepository = projectRepository;
     }
 
-    @Override
-    public void delete(Long id) throws DeleteError {
-        ProjectState postState = getOneById(id, new DeleteError());
-        List<Project> projects = projectRepository.findByProjectState(postState);
-        projects.forEach(project -> {
-            project.setProjectState(null);
-            projectRepository.saveAndFlush(project);
-        });
-        repository.delete(postState);
-    }
 
     @Override
     protected ProjectState updateExisting(ProjectState existingRecord, ProjectState record) {
