@@ -19,7 +19,11 @@ public class EventService extends AbstractService<EventRepository, Event> {
 
     @Override
     protected Event updateExisting(Event existingRecord, Event record) {
-        return null;
+        existingRecord.setName(record.getName());
+        existingRecord.setDescription(record.getDescription());
+        existingRecord.setStartDate(record.getStartDate());
+        existingRecord.setEndDate(record.getEndDate());
+        return repository.saveAndFlush(existingRecord);
     }
 
     public void addEventType(Long eventId, Long eventTypeId) {

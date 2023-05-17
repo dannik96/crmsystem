@@ -7,7 +7,6 @@ import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.AudienceRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelRepository;
-import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelTypeRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +16,13 @@ import java.util.Set;
 @Service
 public class ChannelService extends AbstractService<ChannelRepository, Channel> {
 
-    private final ChannelTypeRepository channelTypeRepository;
-    private final AudienceRepository audienceRepository;
+    private final ChannelTypeService channelTypeService;
+    private final AudienceService audienceService;
 
-    public ChannelService(ChannelRepository repository, ChannelTypeRepository channelTypeRepository, AudienceRepository audienceRepository) {
+    public ChannelService(ChannelRepository repository, ChannelTypeService channelTypeService, AudienceService audienceService) {
         super(repository, "Channel");
-        this.channelTypeRepository = channelTypeRepository;
-        this.audienceRepository = audienceRepository;
+        this.channelTypeService = channelTypeService;
+        this.audienceService = audienceService;
     }
 
     @Override
@@ -35,45 +34,38 @@ public class ChannelService extends AbstractService<ChannelRepository, Channel> 
     }
 
     public void removeType(Long channelId, Long typeId) {
-        Channel channel = repository.findById(channelId).orElseThrow(PatchError::new);
-        ChannelType channelType = channelTypeRepository.findById(typeId).orElseThrow(PatchError::new);
+        Channel channel = getOneById(channelId, new PatchError());
+        ChannelType channelType = channelTypeService.getOneById(typeId, new PatchError());
 
-        if (channel.removeType(channelType)) {
-            throw new PatchError();
-        }
+        channel.removeType(channelType);
 
         repository.saveAndFlush(channel);
     }
 
     public void addType(Long channelId, Long typeId) {
-        Channel channel = repository.findById(channelId).orElseThrow(PatchError::new);
-        ChannelType channelType = channelTypeRepository.findById(typeId).orElseThrow(PatchError::new);
+        Channel channel = getOneById(channelId, new PatchError());
+        ChannelType channelType = channelTypeService.getOneById(typeId, new PatchError());
 
-        if (channel.addType(channelType)) {
-            throw new PatchError();
-        }
+        channel.addType(channelType);
+
 
         repository.saveAndFlush(channel);
     }
 
     public void addAudience(Long channelId, Long audienceId) {
-        Channel channel = repository.findById(channelId).orElseThrow(PatchError::new);
-        Audience type = audienceRepository.findById(audienceId).orElseThrow(PatchError::new);
+        Channel channel = getOneById(channelId, new PatchError());
+        Audience type = audienceService.getOneById(audienceId, new PatchError());
 
-        if (channel.addAudience(type)) {
-            throw new PatchError();
-        }
+        channel.addAudience(type);
 
         repository.saveAndFlush(channel);
     }
 
     public void removeAudience(Long channelId, Long audienceId) {
-        Channel channel = repository.findById(channelId).orElseThrow(PatchError::new);
-        Audience type = audienceRepository.findById(audienceId).orElseThrow(PatchError::new);
+        Channel channel = getOneById(channelId, new PatchError());
+        Audience type = audienceService.getOneById(audienceId, new PatchError());
 
-        if (channel.removeAudience(type)) {
-            throw new PatchError();
-        }
+        channel.removeAudience(type);
 
         repository.saveAndFlush(channel);
     }
