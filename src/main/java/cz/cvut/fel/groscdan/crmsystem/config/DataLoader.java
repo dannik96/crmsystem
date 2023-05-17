@@ -101,12 +101,12 @@ public class DataLoader implements ApplicationRunner {
 
         List<Audience> audiences = createAudiences();
         List<Channel> channels = createChannels(audiences, project, channelChannelTypes);
-        List<Task> tasks = createTasks(us, mod, taskStates, taskLabels, project);
-        List<Post> posts = createPosts(channels, us, postStates, tasks);
+        List<Post> posts = createPosts(channels, us, postStates);
+        List<Task> tasks = createTasks(us, mod, taskStates, taskLabels, project, posts);
 
     }
 
-    private List<Task> createTasks(Person us, Person mod, List<TaskState> taskStates, List<TaskLabel> taskLabels, Project project) {
+    private List<Task> createTasks(Person us, Person mod, List<TaskState> taskStates, List<TaskLabel> taskLabels, Project project, List<Post> posts) {
         List<Task> tasks = new ArrayList<>();
 
         Task task = new Task();
@@ -115,6 +115,7 @@ public class DataLoader implements ApplicationRunner {
         task.setProject(project);
         task.setName("Review post");
         task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
+        task.setPost(posts.get(0));
         task.setTaskState(taskStates.get(2));
         task.setDescription("Need to review the post for the event.");
         task.setPriority(1);
@@ -126,6 +127,7 @@ public class DataLoader implements ApplicationRunner {
         task.setTaskLabels(new HashSet<>(List.of(taskLabels.get(1))));
         task.setProject(project);
         task.setName("Write the post");
+        task.setPost(posts.get(0));
         task.setDeadline(LocalDateTime.of(2023, 6, 20, 11, 0));
         task.setTaskState(taskStates.get(1));
         task.setDescription("Need to write the post for the event.");
@@ -171,7 +173,7 @@ public class DataLoader implements ApplicationRunner {
         return taskService.create(tasks);
     }
 
-    private List<Post> createPosts(List<Channel> channels, Person user, List<PostState> postStates, List<Task> tasks) {
+    private List<Post> createPosts(List<Channel> channels, Person user, List<PostState> postStates) {
         List<Post> posts = new ArrayList<>();
 
         Post post = new Post();
@@ -180,7 +182,6 @@ public class DataLoader implements ApplicationRunner {
         post.setChannels(List.of(channels.get(0), channels.get(1), channels.get(2)));
         post.setPostState(postStates.get(0));
         post.setAuthor(user);
-        post.setTasks(List.of(tasks.get(0), tasks.get(1)));
         post.setPostDate(LocalDateTime.of(2023, 6, 25, 11, 00));
         posts.add(post);
 
@@ -190,7 +191,6 @@ public class DataLoader implements ApplicationRunner {
         post.setChannels(List.of(channels.get(0), channels.get(1), channels.get(2)));
         post.setPostState(postStates.get(4));
         post.setAuthor(user);
-        post.setTasks(List.of(tasks.get(0), tasks.get(1)));
         post.setPostDate(LocalDateTime.of(2023, 5, 25, 11, 00));
         posts.add(post);
 
@@ -217,7 +217,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
         channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
-        channels.add(channel);
+        channels.add(channelService.create(channel));
 
         channel = new Channel();
         channel.setName("Instagram paid");
@@ -226,7 +226,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
         channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
-        channels.add(channel);
+        channels.add(channelService.create(channel));
 
         channel = new Channel();
         channel.setName("Google paid");
@@ -235,7 +235,7 @@ public class DataLoader implements ApplicationRunner {
         channel.setAudiences(new HashSet<>(audiences));
         channel.addProject(project);
         channel.setChannelTypes(Collections.singleton(channelChannelTypes.get(0)));
-        channels.add(channel);
+        channels.add(channelService.create(channel));
 
         channel = new Channel();
         channel.setName("FEE main notice board");
@@ -244,9 +244,12 @@ public class DataLoader implements ApplicationRunner {
         channel.setAudiences(new HashSet<>(List.of(audiences.get(2))));
         channel.addProject(project);
         channel.setChannelTypes(Set.of(channelChannelTypes.get(2), channelChannelTypes.get(3)));
-        channels.add(channel);
+        channels.add(channelService.create(channel));
 
-        return channelService.create(channels);
+        project.setChannels(new HashSet<>(channels));
+        projectService.update(project);
+
+        return channels;
     }
 
     private List<Audience> createAudiences() {

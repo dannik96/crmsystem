@@ -113,13 +113,13 @@ public class TaskController{
 
     @PatchMapping("/{taskId}/add-post/{postId}")
     public ResponseEntity<?> addPost(@PathVariable Long taskId, @PathVariable Long postId) {
-        taskService.addPost(taskId, postId);
+        taskService.setPost(taskId, postId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/{taskId}/remove-post/{postId}")
-    public ResponseEntity<?> removePost(@PathVariable Long taskId, @PathVariable Long postId) {
-        taskService.removePost(taskId, postId);
+    @PatchMapping("/{taskId}/remove-post")
+    public ResponseEntity<?> removePost(@PathVariable Long taskId) {
+        taskService.removePost(taskId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -131,9 +131,9 @@ public class TaskController{
     }
 
     @GetMapping("/{taskId}/posts")
-    public ResponseEntity<Set<PostDto>> getTaskPosts(@PathVariable Long taskId) {
-        Set<Post> posts = taskService.getTaskPosts(taskId);
-        return new ResponseEntity<>(postMapper.postToPostDto(posts), HttpStatus.OK);
+    public ResponseEntity<PostDto> getTaskPosts(@PathVariable Long taskId) {
+        Post post = taskService.getTaskPost(taskId);
+        return new ResponseEntity<>(postMapper.postToPostDto(post), HttpStatus.OK);
     }
 
     // assignee
@@ -168,6 +168,12 @@ public class TaskController{
     public ResponseEntity<?> setManager(@PathVariable Long idProject) {
         taskService.setAssignee(idProject, null);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{taskId}/project-post-by-channel")
+    public ResponseEntity<Set<PostDto>> getProjectPostsByChannel(@PathVariable Long taskId) {
+        Set<Post> posts = taskService.getPostsByTask(taskId);
+        return new ResponseEntity<>(postMapper.postToPostDto(posts), HttpStatus.OK);
     }
 
 }

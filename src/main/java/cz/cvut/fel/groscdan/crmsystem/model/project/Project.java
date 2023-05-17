@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,11 +46,7 @@ public class Project extends AbstractEntity {
     @JoinColumn(name = "project_state_id")
     private ProjectState projectState;
 
-    @ManyToMany
-    @JoinTable(
-            name = "project_channel",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "channel_id"))
+    @ManyToMany(mappedBy = "projects")
     private Set<Channel> channels;
 
     @ManyToMany
@@ -67,10 +64,16 @@ public class Project extends AbstractEntity {
     private Set<Product> products;
 
     public void addChannel(Channel channel) {
+        if (channels == null) {
+            channels = new HashSet<>();
+        }
         channels.add(channel);
     }
 
     public void removeChannel(Channel channel) {
+        if (channels == null) {
+            channels = new HashSet<>();
+        }
         channels.remove(channel);
     }
 

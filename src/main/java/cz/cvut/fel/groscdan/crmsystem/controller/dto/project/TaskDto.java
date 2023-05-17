@@ -21,6 +21,7 @@ public class TaskDto implements Serializable {
     private final String name;
     private final Integer priority;
     private final Set<TaskLabelDto1> taskLabels;
+    private final PostDto post;
     private final TaskStateDto1 taskState;
     private final ProjectDto1 project;
     private final PersonDto1 createdByPerson;

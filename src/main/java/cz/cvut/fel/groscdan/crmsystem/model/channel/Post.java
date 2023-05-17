@@ -24,6 +24,10 @@ public class Post extends AbstractEntity {
     private LocalDateTime postDate;
 
     @ManyToMany
+    @JoinTable(
+            name = "posts_channels",
+            joinColumns = @JoinColumn(name = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Channel> channels;
 
     @ManyToMany
@@ -36,13 +40,6 @@ public class Post extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id")
     private PostState postState;
-
-    @ManyToMany
-    @JoinTable(
-            name = "tasks_posts",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private List<Task> tasks;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -60,5 +57,13 @@ public class Post extends AbstractEntity {
     @Override
     public String toString() {
         return "Tutorial [id=" + id + ", title=" + content + "]";
+    }
+
+    public void removeChannel(Channel channel) {
+        channels.remove(channel);
+    }
+
+    public void addChannel(Channel channel) {
+        channels.add(channel);
     }
 }

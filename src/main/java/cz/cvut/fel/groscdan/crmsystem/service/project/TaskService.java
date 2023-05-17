@@ -10,6 +10,7 @@ import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -88,20 +89,19 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
         return timeSpentService.findAllByTask(task);
     }
 
-    public void addPost(Long taskId, Long postId) {
+    public void setPost(Long taskId, Long postId) {
         Task task = getOneById(taskId, new PatchError());
         Post post = postService.getOneById(postId, new PatchError());
 
-        task.addPost(post);
+        task.setPost(post);
 
         repository.saveAndFlush(task);
     }
 
-    public void removePost(Long taskId, Long postId) {
+    public void removePost(Long taskId) {
         Task task = getOneById(taskId, new PatchError());
-        Post post = postService.getOneById(postId, new PatchError());
 
-        task.removePost(post);
+        task.setPost(null);
 
         repository.saveAndFlush(task);
     }
@@ -148,9 +148,25 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
         }
     }
 
-    public Set<Post> getTaskPosts(Long taskId) {
+    public Post getTaskPost(Long taskId) {
         Task task = getOneById(taskId);
 
-        return task.getPosts();
+        return task.getPost();
+    }
+
+    public Set<Post> getPostsByTask(Long taskId) {
+        Task task = getOneById(taskId);
+
+        if (task == null ){
+            return new HashSet<>();
+        }
+        Project project = task.getProject();
+        if (project == null) {
+            return new HashSet<>(postService.getAll());
+        }
+        Set<Post> posts = new HashSet<>();
+        project.getChannels().forEach(channel -> posts.addAll(channel.getPosts()));
+
+        return posts;
     }
 }

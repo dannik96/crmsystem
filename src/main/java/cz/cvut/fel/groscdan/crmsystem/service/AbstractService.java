@@ -1,6 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.service;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
+import cz.cvut.fel.groscdan.crmsystem.controller.exception.NoDataFound;
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractService<T extends JpaRepository<E, Long>, E extends AbstractEntity> {
 
@@ -40,7 +42,8 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     }
 
     public List<E> getAll() {
-        return new ArrayList<>(repository.findAll());
+        List<E> entities = new ArrayList<>(repository.findAll()).stream().filter(entity -> !entity.getDeleted()).collect(Collectors.toList());
+        return entities;
     }
 
     @Transactional
@@ -56,7 +59,7 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     public E getOneById(Long id) {
         E entity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + name + " with " + id + " not found."));
         if (entity.getDeleted()) {
-            throw new EntityNotFoundException("Entity " + name + " with " + id + " not found.");
+            throw new NoDataFound();
         }
         return entity;
     }
@@ -64,7 +67,7 @@ public abstract class AbstractService<T extends JpaRepository<E, Long>, E extend
     public E getOneById(Long id, RuntimeException runtimeException) {
         E entity = repository.findById(id).orElseThrow(() -> runtimeException);
         if (entity.getDeleted()) {
-            throw new EntityNotFoundException("Entity " + name + " with " + id + " not found.");
+            throw new NoDataFound();
         }
         return entity;
     }

@@ -24,11 +24,7 @@ public class Channel extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "posts_channel",
-            joinColumns = @JoinColumn(name = "channel_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    @ManyToMany(mappedBy = "channels")
     private Set<Post> posts;
 
     @ManyToMany
@@ -41,12 +37,17 @@ public class Channel extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "audience_channels",
+            name = "audiences_channels",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "audience_id"))
     private Set<Audience> audiences;
 
+
     @ManyToMany
+    @JoinTable(
+            name = "projects_channels",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id"))
     private Set<Project> projects;
 
     public boolean addType(ChannelType channelType) {

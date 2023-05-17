@@ -1,6 +1,5 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.channel;
 
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.ChannelDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.PostDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
@@ -62,6 +61,18 @@ public class PostController {
     @PatchMapping("/{postId}/set-state/{stateId}")
     public ResponseEntity<PostDto> setState(@PathVariable Long postId, @PathVariable Long stateId) throws PatchError {
         postService.setState(postId, stateId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{postId}/add-channel/{channelId}")
+    public ResponseEntity<PostDto> addChannel(@PathVariable Long postId, @PathVariable Long channelId) throws PatchError {
+        postService.addChannel(postId, channelId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{postId}/remove-channel/{channelId}")
+    public ResponseEntity<PostDto> removeChannel(@PathVariable Long postId, @PathVariable Long channelId) throws PatchError {
+        postService.removeChannel(postId, channelId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

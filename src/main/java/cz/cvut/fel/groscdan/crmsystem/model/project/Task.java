@@ -35,8 +35,9 @@ public class Task extends AbstractEntity {
     @Column
     private Integer priority;
 
-    @ManyToMany(mappedBy = "tasks", fetch = FetchType.LAZY)
-    private Set<Post> posts;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @ManyToMany
     @JoinTable(
@@ -84,11 +85,4 @@ public class Task extends AbstractEntity {
         return getClass().hashCode();
     }
 
-    public void addPost(Post post) {
-        posts.add(post);
-    }
-
-    public void removePost(Post post) {
-        posts.remove(post);
-    }
 }

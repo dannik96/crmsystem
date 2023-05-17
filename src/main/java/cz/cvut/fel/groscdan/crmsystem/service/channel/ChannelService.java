@@ -5,6 +5,7 @@ import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.AudienceRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
@@ -83,5 +84,8 @@ public class ChannelService extends AbstractService<ChannelRepository, Channel> 
     public Set<ChannelType> getAllTypes(Long id) {
         Channel channel = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Channel with id " + id + " not found."));
         return channel.getChannelTypes();
+    }
+
+    public void addProject(Project project) {
     }
 }
