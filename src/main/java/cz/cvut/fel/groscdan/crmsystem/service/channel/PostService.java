@@ -1,5 +1,6 @@
 package cz.cvut.fel.groscdan.crmsystem.service.channel;
 
+import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
 import cz.cvut.fel.groscdan.crmsystem.model.AbstractState;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.PostState;
@@ -20,13 +21,16 @@ public class PostService extends AbstractService<PostRepository, Post> {
 
     @Override
     protected Post updateExisting(Post existingRecord, Post record) {
-        // TODO
-        return null;
+        existingRecord.setName(record.getName());
+        existingRecord.setContent(record.getContent());
+        existingRecord.setPostDate(record.getPostDate());
+
+        return repository.saveAndFlush(existingRecord);
     }
 
     public void setState(Long postId, Long stateId) {
-        PostState state = postStateService.getOneById(stateId);
-        Post post = getOneById(stateId);
+        Post post = getOneById(postId, new PatchError());
+        PostState state = postStateService.getOneById(stateId, new PatchError());
 
         post.setPostState(state);
 
