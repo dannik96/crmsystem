@@ -77,10 +77,21 @@ public class EventController {
     }
 
     @PatchMapping("/{eventId}/remove-type/{eventTypeId}")
-    public ResponseEntity<EventDto> removeEventType(@PathVariable Long eventId, @PathVariable Long eventTypeId){
+    public ResponseEntity<EventDto> removeEventType(@PathVariable Long eventId, @PathVariable Long eventTypeId) {
         eventService.removeEventType(eventId, eventTypeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("/{eventId}/unset-project")
+    public ResponseEntity<EventDto> unsetProject(@PathVariable Long eventId) {
+        eventService.unsetProject(eventId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{eventId}/set-project/{projectId}")
+    public ResponseEntity<EventDto> setProject(@PathVariable Long eventId, @PathVariable Long projectId) {
+        eventService.setProject(eventId, projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     // TODO add methods to product and project
 }
