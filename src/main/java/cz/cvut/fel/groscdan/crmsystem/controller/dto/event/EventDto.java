@@ -29,6 +29,7 @@ public class EventDto implements Serializable {
     @Getter
     public static class ProjectDto implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final LocalDateTime deadline;
@@ -44,6 +45,7 @@ public class EventDto implements Serializable {
     @Getter
     public static class EventTypeDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;

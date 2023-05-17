@@ -23,6 +23,7 @@ public class AudienceDto implements Serializable {
     @Getter
     public static class ChannelDto implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String description;

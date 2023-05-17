@@ -27,6 +27,7 @@ public class CommentDto implements Serializable {
     @Getter
     public static class TaskDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final LocalDateTime deadline;
@@ -42,6 +43,7 @@ public class CommentDto implements Serializable {
     @Getter
     public static class CommentDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String text;
@@ -54,6 +56,7 @@ public class CommentDto implements Serializable {
     @Getter
     public static class PersonDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String email;

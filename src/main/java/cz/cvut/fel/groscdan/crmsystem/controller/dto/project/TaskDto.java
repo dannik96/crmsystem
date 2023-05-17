@@ -34,6 +34,7 @@ public class TaskDto implements Serializable {
     @Getter
     public static class PostDto implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -48,6 +49,7 @@ public class TaskDto implements Serializable {
     @Getter
     public static class TaskLabelDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -61,6 +63,7 @@ public class TaskDto implements Serializable {
     @Getter
     public static class TaskStateDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -74,6 +77,7 @@ public class TaskDto implements Serializable {
     @Getter
     public static class ProjectDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final LocalDateTime deadline;
@@ -89,6 +93,7 @@ public class TaskDto implements Serializable {
     @Getter
     public static class PersonDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String email;

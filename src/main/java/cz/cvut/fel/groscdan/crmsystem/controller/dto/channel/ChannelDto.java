@@ -31,6 +31,7 @@ public class ChannelDto implements Serializable {
     @Getter
     public static class PostDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -46,6 +47,7 @@ public class ChannelDto implements Serializable {
         @Getter
         public static class PostStateDto1 implements Serializable {
             private final Long id;
+            private final Boolean deleted;
             private final LocalDateTime created;
             private final LocalDateTime modified;
             private final String name;
@@ -59,6 +61,7 @@ public class ChannelDto implements Serializable {
         @Getter
         public static class PersonDto implements Serializable {
             private final Long id;
+            private final Boolean deleted;
             private final LocalDateTime created;
             private final LocalDateTime modified;
             private final String email;
@@ -76,6 +79,7 @@ public class ChannelDto implements Serializable {
     @Getter
     public static class ChannelTypeDto implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -89,6 +93,7 @@ public class ChannelDto implements Serializable {
     @Getter
     public static class AudienceDto1 implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final String name;
@@ -102,6 +107,7 @@ public class ChannelDto implements Serializable {
     @Getter
     public static class ProjectDto implements Serializable {
         private final Long id;
+        private final Boolean deleted;
         private final LocalDateTime created;
         private final LocalDateTime modified;
         private final LocalDateTime deadline;
@@ -119,6 +125,7 @@ public class ChannelDto implements Serializable {
         @Getter
         public static class PersonDto implements Serializable {
             private final Long id;
+            private final Boolean deleted;
             private final LocalDateTime created;
             private final LocalDateTime modified;
             private final String email;
@@ -135,6 +142,7 @@ public class ChannelDto implements Serializable {
         @Getter
         public static class ProjectTypeDto implements Serializable {
             private final Long id;
+            private final Boolean deleted;
             private final LocalDateTime created;
             private final LocalDateTime modified;
             private final String name;
@@ -148,6 +156,7 @@ public class ChannelDto implements Serializable {
         @Getter
         public static class ProjectStateDto implements Serializable {
             private final Long id;
+            private final Boolean deleted;
             private final LocalDateTime created;
             private final LocalDateTime modified;
             private final String name;
