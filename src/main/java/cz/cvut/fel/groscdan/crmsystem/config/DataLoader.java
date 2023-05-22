@@ -28,7 +28,6 @@ import java.util.*;
 @Log4j2
 public class DataLoader implements ApplicationRunner {
 
-    private final PostRepository postRepository;
     private final UserService userService;
     private final PersonService personService;
     private final PasswordEncoder passwordEncoder;
@@ -51,13 +50,12 @@ public class DataLoader implements ApplicationRunner {
     User user;
 
     @Autowired
-    public DataLoader(PostRepository tutorialRepository, UserService userService, PersonService personService, PasswordEncoder passwordEncoder,
+    public DataLoader(UserService userService, PersonService personService, PasswordEncoder passwordEncoder,
                       UserRoleRepository userRoleRepository, EventTypeService eventTypeService, ProjectService projectService,
                       ProjectStateService projectStateService, PostStateService postStateService, TaskStateService taskStateService,
                       ProjectTypeService projectTypeService, ChannelTypeService channelTypeService, TaskLabelService taskLabelService,
                       AudienceService audienceService, ChannelService channelService, EventService eventService, PostService postService,
                       TaskService taskService) {
-        this.postRepository = tutorialRepository;
         this.userService = userService;
         this.personService = personService;
         this.passwordEncoder = passwordEncoder;
@@ -86,6 +84,9 @@ public class DataLoader implements ApplicationRunner {
         Person us = createPerson(user, "John", "Wick", "+420 123 456 789");
         Person mod = createPerson(moderator, "Winston", "Scott", "+420 456 789 123");
         Person ad = createPerson(admin, "Santino", "D'Antonio", "+420 789 123 567");
+
+        user.setPerson(us);
+        userService.update(user);
 
         List<ProjectState> projectStates = createProjectStates();
         List<PostState> postStates = createPostStates();
@@ -279,21 +280,25 @@ public class DataLoader implements ApplicationRunner {
         TaskLabel taskLabel = new TaskLabel();
         taskLabel.setName("High priority");
         taskLabel.setDescription("High difficulty.");
+        taskLabel.setDeletable(false);
         taskLabels.add(taskLabel);
 
         taskLabel = new TaskLabel();
         taskLabel.setName("Medium priority");
         taskLabel.setDescription("Medium difficulty.");
+        taskLabel.setDeletable(false);
         taskLabels.add(taskLabel);
 
         taskLabel = new TaskLabel();
         taskLabel.setName("Low priority");
         taskLabel.setDescription("Lowest difficulty.");
+        taskLabel.setDeletable(false);
         taskLabels.add(taskLabel);
 
         taskLabel = new TaskLabel();
         taskLabel.setName("Idea");
         taskLabel.setDescription("Only idea with no deeper analysis. Might not work.");
+        taskLabel.setDeletable(false);
         taskLabels.add(taskLabel);
 
         return taskLabelService.create(taskLabels);
@@ -305,21 +310,25 @@ public class DataLoader implements ApplicationRunner {
         ChannelType projectChannelType = new ChannelType();
         projectChannelType.setName("Social Media");
         projectChannelType.setDescription("Social networks.");
+        projectChannelType.setDeletable(false);
         channelType.add(projectChannelType);
 
         projectChannelType = new ChannelType();
         projectChannelType.setName("Direct communication");
         projectChannelType.setDescription("Direct communication via messaging.");
+        projectChannelType.setDeletable(false);
         channelType.add(projectChannelType);
 
         projectChannelType = new ChannelType();
         projectChannelType.setName("Classic media");
         projectChannelType.setDescription("Classic form of communication through standard channels.");
+        projectChannelType.setDeletable(false);
         channelType.add(projectChannelType);
 
         projectChannelType = new ChannelType();
         projectChannelType.setName("Live presentations");
         projectChannelType.setDescription("Communication through the presentation.");
+        projectChannelType.setDeletable(false);
         channelType.add(projectChannelType);
 
         return channelTypeService.create(channelType);
@@ -331,16 +340,19 @@ public class DataLoader implements ApplicationRunner {
         ProjectType projectType = new ProjectType();
         projectType.setName("Study appliance");
         projectType.setDescription("Study appliance category.");
+        projectType.setDeletable(false);
         projectTypes.add(projectType);
 
         projectType = new ProjectType();
         projectType.setName("University propagation");
         projectType.setDescription("Propagation of the university to public.");
+        projectType.setDeletable(false);
         projectTypes.add(projectType);
 
         projectType = new ProjectType();
         projectType.setName("Research propagation");
         projectType.setDescription("Propagation of results of the research project.");
+        projectType.setDeletable(false);
         projectTypes.add(projectType);
 
 
@@ -353,26 +365,31 @@ public class DataLoader implements ApplicationRunner {
         TaskState taskState = new TaskState();
         taskState.setName("Open");
         taskState.setDescription("State for open tasks.");
+        taskState.setDeletable(false);
         taskStates.add(taskState);
 
         taskState = new TaskState();
         taskState.setName("Cancelled");
         taskState.setDescription("State for cancelled tasks.");
+        taskState.setDeletable(false);
         taskStates.add(taskState);
 
         taskState = new TaskState();
         taskState.setName("Ongoing");
         taskState.setDescription("State for ongoing tasks.");
+        taskState.setDeletable(false);
         taskStates.add(taskState);
 
         taskState = new TaskState();
         taskState.setName("Postpone");
         taskState.setDescription("State for postponed tasks.");
+        taskState.setDeletable(false);
         taskStates.add(taskState);
 
         taskState = new TaskState();
         taskState.setName("Done");
         taskState.setDescription("State for done tasks.");
+        taskState.setDeletable(false);
         taskStates.add(taskState);
 
         return taskStateService.create(taskStates);
@@ -384,26 +401,31 @@ public class DataLoader implements ApplicationRunner {
         PostState postState = new PostState();
         postState.setName("Draft");
         postState.setDescription("Post is in draft mode.");
+        postState.setDeletable(false);
         postStates.add(postState);
 
         postState = new PostState();
         postState.setName("Validated");
         postState.setDescription("Post is validated.");
+        postState.setDeletable(false);
         postStates.add(postState);
 
         postState = new PostState();
         postState.setName("Review");
         postState.setDescription("Post is ready to review.");
+        postState.setDeletable(false);
         postStates.add(postState);
 
         postState = new PostState();
         postState.setName("Posted");
         postState.setDescription("Post is posted.");
+        postState.setDeletable(false);
         postStates.add(postState);
 
         postState = new PostState();
         postState.setName("Cancelled");
         postState.setDescription("Post is cancelled.");
+        postState.setDeletable(false);
         postStates.add(postState);
 
         return postStateService.create(postStates);
@@ -415,21 +437,25 @@ public class DataLoader implements ApplicationRunner {
         ProjectState projectState = new ProjectState();
         projectState.setName("Open");
         projectState.setDescription("State for open projects.");
+        projectState.setDeletable(false);
         projectStates.add(projectState);
 
         projectState = new ProjectState();
         projectState.setName("Cancelled");
         projectState.setDescription("State for cancelled projects.");
+        projectState.setDeletable(false);
         projectStates.add(projectState);
 
         projectState = new ProjectState();
         projectState.setName("Ongoing");
         projectState.setDescription("State for ongoing projects.");
+        projectState.setDeletable(false);
         projectStates.add(projectState);
 
         projectState = new ProjectState();
         projectState.setName("Postpone");
         projectState.setDescription("State for postponed projects.");
+        projectState.setDeletable(false);
         projectStates.add(projectState);
 
         return projectStateService.create(projectStates);
@@ -491,10 +517,12 @@ public class DataLoader implements ApplicationRunner {
         EventType eventType = new EventType();
         eventType.setName("Youtube event");
         eventType.setDescription("Event takes place on Youtube channel by online streaming.");
+        eventType.setDeletable(false);
         eventTypes.add(eventType);
 
         eventType = new EventType();
         eventType.setName("On site event");
+        eventType.setDeletable(false);
         eventType.setDescription("Event takes place in the buildings of FEE. Entrance is free for everyone.");
 
         eventTypes.add(eventType);
