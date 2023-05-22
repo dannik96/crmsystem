@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Getter
 public class EventTypeDto implements Serializable {
     private final Long id;
+    private final Boolean deletable;
+    private final Boolean deleted;
     private final String name;
     private final String description;
 }

@@ -5,6 +5,7 @@ import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
 import cz.cvut.fel.groscdan.crmsystem.model.event.Event;
 import cz.cvut.fel.groscdan.crmsystem.model.event.EventType;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.repository.event.EventTypeRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class EventTypeService extends AbstractService<EventTypeRepository, Event
         super(repository, "EventType");
     }
 
+    @Override
+    public EventType create(EventType record) {
+        record.setDeletable(true);
+        return super.create(record);
+    }
     @Override
     protected EventType updateExisting(EventType existingRecord, EventType record) {
         existingRecord.setDescription(record.getDescription());

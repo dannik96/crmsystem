@@ -1,6 +1,6 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.crm;
 
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.CustomerDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.crm.CustomerDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.CustomerMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Customer;
 import cz.cvut.fel.groscdan.crmsystem.service.crm.CustomerService;

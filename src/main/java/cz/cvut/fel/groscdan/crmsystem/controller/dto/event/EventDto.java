@@ -20,6 +20,7 @@ public class EventDto implements Serializable {
     private final LocalDateTime endDate;
     private final String name;
     private final ProjectDto project;
+    private final Boolean deleted;
     private final Set<EventTypeDto1> eventTypes;
 
     /**

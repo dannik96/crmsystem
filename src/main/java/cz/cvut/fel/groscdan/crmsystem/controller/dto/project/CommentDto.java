@@ -19,6 +19,7 @@ public class CommentDto implements Serializable {
     private final TaskDto1 task;
     private final CommentDto1 comment;
     private final PersonDto1 person;
+    private final Boolean deleted;
 
     /**
      * A DTO for the {@link cz.cvut.fel.groscdan.crmsystem.model.project.Task} entity

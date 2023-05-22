@@ -15,6 +15,8 @@ public class ChannelTypeDto implements Serializable {
     private final Long id;
     private final LocalDateTime created;
     private final LocalDateTime modified;
+    private final Boolean deletable;
+    private final Boolean deleted;
     private final String name;
     private final String description;
 }

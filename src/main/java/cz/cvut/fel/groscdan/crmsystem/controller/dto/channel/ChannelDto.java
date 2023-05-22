@@ -23,6 +23,7 @@ public class ChannelDto implements Serializable {
     private final Set<ChannelTypeDto> channelTypes;
     private final Set<AudienceDto1> audiences;
     private final Set<ProjectDto> projects;
+    private final Boolean deleted;
 
     /**
      * A DTO for the {@link cz.cvut.fel.groscdan.crmsystem.model.channel.Post} entity
@@ -39,6 +40,7 @@ public class ChannelDto implements Serializable {
         private final LocalDateTime postDate;
         private final PostStateDto1 postState;
         private final PersonDto author;
+
 
         /**
          * A DTO for the {@link cz.cvut.fel.groscdan.crmsystem.model.channel.PostState} entity

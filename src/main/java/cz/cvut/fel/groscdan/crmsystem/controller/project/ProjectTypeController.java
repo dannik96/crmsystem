@@ -1,9 +1,11 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.project;
 
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.ProjectStateDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.ProjectTypeDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskStateDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.ProjectTypeMapper;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectType;
 import cz.cvut.fel.groscdan.crmsystem.service.project.ProjectTypeService;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +23,15 @@ public class ProjectTypeController {
 
     public ProjectTypeController(ProjectTypeService projectTypeService) {
         this.projectTypeService = projectTypeService;
+    }
+
+    @PostMapping
+    public ResponseEntity<ProjectTypeDto> createChannel(@RequestBody ProjectTypeDto typeDto) {
+
+        ProjectType type = projectTypeMapper.projectTypeDtoToProjectType(typeDto);
+        type = projectTypeService.create(type);
+        typeDto = projectTypeMapper.projectTypeToProjectTypeDto(type);
+        return new ResponseEntity<>(typeDto, HttpStatus.CREATED);
     }
 
     @GetMapping

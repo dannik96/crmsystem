@@ -20,11 +20,20 @@ public class ProjectStateService extends AbstractService<ProjectStateRepository,
         this.projectRepository = projectRepository;
     }
 
+    @Override
+    public ProjectState create(ProjectState record) {
+        record.setDeletable(true);
+        return super.create(record);
+    }
 
     @Override
     protected ProjectState updateExisting(ProjectState existingRecord, ProjectState record) {
         existingRecord.setName(record.getName());
         existingRecord.setDescription(record.getDescription());
         return repository.saveAndFlush(existingRecord);
+    }
+
+    public ProjectState getOneByStateName(String name) {
+        return repository.getProjectStateByNameContains(name);
     }
 }

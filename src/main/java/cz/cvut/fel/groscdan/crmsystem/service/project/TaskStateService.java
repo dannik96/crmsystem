@@ -1,6 +1,7 @@
 package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Task;
 import cz.cvut.fel.groscdan.crmsystem.model.project.TaskState;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.TaskRepository;
@@ -20,6 +21,11 @@ public class TaskStateService extends AbstractService<TaskStateRepository, TaskS
         this.taskRepository = taskRepository;
     }
 
+    @Override
+    public TaskState create(TaskState record) {
+        record.setDeletable(true);
+        return super.create(record);
+    }
     @Override
     protected TaskState updateExisting(TaskState existingRecord, TaskState record) {
         existingRecord.setName(record.getName());

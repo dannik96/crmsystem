@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Data
 public class TaskStateDto implements Serializable {
     private final Long id;
+    private final Boolean deletable;
+    private final Boolean deleted;
     private final String name;
     private final String description;
 }

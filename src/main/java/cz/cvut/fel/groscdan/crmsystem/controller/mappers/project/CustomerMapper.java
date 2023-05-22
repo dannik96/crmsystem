@@ -1,6 +1,6 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.mappers.project;
 
-import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.CustomerDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.crm.CustomerDto;
 import cz.cvut.fel.groscdan.crmsystem.model.crm.Customer;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

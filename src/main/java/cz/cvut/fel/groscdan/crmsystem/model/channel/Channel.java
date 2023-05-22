@@ -72,4 +72,11 @@ public class Channel extends AbstractEntity {
         }
         projects.add(project);
     }
+
+    public void removeProject(Project project) {
+        if (projects == null) {
+            return;
+        }
+        projects.remove(project);
+    }
 }

@@ -13,11 +13,9 @@ import java.util.Set;
 
 @Mapper
 public interface ProjectMapper {
-    ProjectMapper INSTANCE = Mappers.getMapper(ProjectMapper.class);
-    @Mapping(source = "manager", target = "manager", qualifiedByName = "managerToManager")
+
     Project projectDtoToProject(ProjectDto projectDto);
 
-    @Mapping(source = "manager", target = "manager", qualifiedByName = "managerToManager")
     ProjectDto projectToProjectDto(Project project);
 
     List<Project> projectDtoToProject(List<ProjectDto> projectDto);
@@ -29,8 +27,4 @@ public interface ProjectMapper {
     Set<ProjectDto> projectToProjectDto(Set<Project> project);
 
 
-    @Named("managerToManager")
-    static Person managerToManager(Person manager) {
-        return new Person(manager.getId(), manager.getEmail(), manager.getLogin(), manager.getName(), manager.getSurname(), manager.getPhone());
-    }
 }

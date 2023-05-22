@@ -2,14 +2,14 @@ package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
-import cz.cvut.fel.groscdan.crmsystem.model.project.Person;
-import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
-import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
-import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectType;
+import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.ProjectRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class ProjectService extends AbstractService<ProjectRepository, Project> {
@@ -27,7 +27,15 @@ public class ProjectService extends AbstractService<ProjectRepository, Project> 
         this.personService = personService;
     }
 
-    // TODO
+    @Override
+    public Project create(Project record) {
+        if (record.getProjectState() == null) {
+            ProjectState projectState = projectStateService.getOneByStateName("Open");
+            record.setProjectState(projectState);
+        }
+        return super.create(record);
+    }
+
     @Override
     protected Project updateExisting(Project existingRecord, Project record) {
         existingRecord.setDescription(record.getDescription());
@@ -42,18 +50,18 @@ public class ProjectService extends AbstractService<ProjectRepository, Project> 
         Channel channel = channelService.getOneById(idChannel, new PatchError());
         Project project = getOneById(idProject, new PatchError());
 
-        project.addChannel(channel);
+        channel.addProject(project);
 
-        repository.saveAndFlush(project);
+        channelService.update(channel);
     }
 
     public void removeChannel(Long idProject, Long idChannel) {
         Channel channel = channelService.getOneById(idChannel, new PatchError());
         Project project = getOneById(idProject, new PatchError());
 
-        project.removeChannel(channel);
+        channel.removeProject(project);
 
-        repository.saveAndFlush(project);
+        channelService.update(channel);
     }
 
     public void setState(Long idProject, Long stateId) {

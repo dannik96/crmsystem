@@ -4,8 +4,8 @@ import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.ChannelDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.AudienceMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.ChannelMapper;
+import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.ChannelTypeMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
-import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.TypeMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Audience;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
@@ -27,7 +27,7 @@ public class ChannelController {
     private final ChannelMapper channelMapper = Mappers.getMapper(ChannelMapper.class);
     private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
     private final AudienceMapper audienceMapper = Mappers.getMapper(AudienceMapper.class);
-    private final TypeMapper typeMapper = Mappers.getMapper(TypeMapper.class);
+    private final ChannelTypeMapper channelTypeMapper = Mappers.getMapper(ChannelTypeMapper.class);
 
     public ChannelController(ChannelService channelService) {
         this.channelService = channelService;
@@ -109,6 +109,6 @@ public class ChannelController {
     @GetMapping("/{id}/types")
     public ResponseEntity<?> getChannelTypes(@PathVariable Long id) {
         Set<ChannelType> channelTypes = channelService.getAllTypes(id);
-        return new ResponseEntity<>(typeMapper.typeToTypeDto(channelTypes), HttpStatus.OK);
+        return new ResponseEntity<>(channelTypeMapper.channelTypeToChannelTypeDto(channelTypes), HttpStatus.OK);
     }
 }

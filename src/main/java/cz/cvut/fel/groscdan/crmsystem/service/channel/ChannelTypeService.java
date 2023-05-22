@@ -3,6 +3,7 @@ package cz.cvut.fel.groscdan.crmsystem.service.channel;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.ChannelTypeRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
@@ -19,6 +20,12 @@ public class ChannelTypeService extends AbstractService<ChannelTypeRepository, C
     public ChannelTypeService(ChannelTypeRepository repository, ChannelRepository channelRepository) {
         super(repository, "Type");
         this.channelRepository = channelRepository;
+    }
+
+    @Override
+    public ChannelType create(ChannelType record) {
+        record.setDeletable(true);
+        return super.create(record);
     }
 
     @Override

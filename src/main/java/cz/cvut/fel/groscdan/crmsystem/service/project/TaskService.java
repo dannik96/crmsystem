@@ -1,15 +1,19 @@
 package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.*;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.PostService;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +27,7 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     private final PostService postService;
     private final CommentService commentService;
     private final PersonService personService;
+
     private final ProjectService projectService;
     private final ChannelService channelService;
 
@@ -140,12 +145,8 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
         Project project = projectService.getOneById(projectId, new PatchError());
         Task task = getOneById(taskId, new PatchError());
 
-        if (task.getProject() != null) {
-            task.setProject(project);
-            repository.saveAndFlush(task);
-        } else {
-            throw new PatchError();
-        }
+        task.setProject(project);
+        repository.saveAndFlush(task);
     }
 
     public Post getTaskPost(Long taskId) {
@@ -157,7 +158,7 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     public Set<Post> getPostsByTask(Long taskId) {
         Task task = getOneById(taskId);
 
-        if (task == null ){
+        if (task == null) {
             return new HashSet<>();
         }
         Project project = task.getProject();
@@ -168,5 +169,36 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
         project.getChannels().forEach(channel -> posts.addAll(channel.getPosts()));
 
         return posts;
+    }
+
+    public List<Task> getAssignableTasks(Long id) {
+        Post post = postService.getOneById(id);
+
+        if (post == null) {
+            return new ArrayList<>();
+        }
+        List<Channel> channels = post.getChannels().stream().filter(channel -> !channel.getDeleted()).toList();
+        Set<Project> projects = new HashSet<>();
+        channels.forEach(channel -> {
+            for (Project project : channel.getProjects()) {
+                if (!project.getDeleted()) {
+                    projects.add(project);
+                }
+            }
+        });
+        Set<Task> tasks = new HashSet<>();
+        projects.forEach(project -> {
+            for (Task task : getTasksByProject(project)) {
+                if (!task.getDeleted()) {
+                    tasks.add(task);
+                }
+            }
+        });
+
+        return new ArrayList<>(tasks);
+    }
+
+    public Set<Task> getTasksByProject(Project project) {
+        return new HashSet<>(repository.getTasksByProject(project));
     }
 }

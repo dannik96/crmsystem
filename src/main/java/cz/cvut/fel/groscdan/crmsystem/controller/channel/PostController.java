@@ -1,11 +1,15 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.PostDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.PostMapper;
+import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.TaskMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Task;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.PostService;
+import cz.cvut.fel.groscdan.crmsystem.service.project.TaskService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +23,13 @@ import java.util.stream.Collectors;
 public class PostController {
     
     private final PostService postService;
+    private final TaskService taskService;
     private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
+    private final TaskMapper taskMapper = Mappers.getMapper(TaskMapper.class);
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, TaskService taskService) {
         this.postService = postService;
+        this.taskService = taskService;
     }
 
     @GetMapping
@@ -35,6 +42,12 @@ public class PostController {
     public ResponseEntity<PostDto> get(@PathVariable Long id){
         Post post = postService.getOneById(id);
         return new ResponseEntity<>(postMapper.postToPostDto(post), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/assignable-tasks")
+    public ResponseEntity<List<TaskDto>> getAssignableTasks(@PathVariable Long id){
+        List<Task> tasks = taskService.getAssignableTasks(id);
+        return new ResponseEntity<>(taskMapper.taskToTaskDto(tasks), HttpStatus.OK);
     }
 
     @PostMapping

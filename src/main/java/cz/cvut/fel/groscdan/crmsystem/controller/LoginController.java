@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class LoginController {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<JwtResponse> signing(@RequestBody SignInRequest signInRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getUsername(), signInRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtil.generateJwtToken(authentication);

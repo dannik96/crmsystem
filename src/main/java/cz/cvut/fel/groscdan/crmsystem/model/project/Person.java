@@ -23,7 +23,9 @@ public class Person extends AbstractPerson {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
+    public Person(Person person) {
+        this(person.id, person.email, person.login, person.name, person.surname, person.phone);
+    }
     public Person(User user) {
         super();
         this.login = user.getUsername();
@@ -39,14 +41,6 @@ public class Person extends AbstractPerson {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
-    }
-
-    public void addTask(Task task) {
-        tasks.add(task);
-    }
-
-    public void removeTask(Task task) {
-        tasks.remove(task);
     }
 
     @Override

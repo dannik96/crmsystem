@@ -2,6 +2,7 @@ package cz.cvut.fel.groscdan.crmsystem.service.project;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectType;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.ProjectRepository;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.ProjectTypeRepository;
@@ -20,6 +21,11 @@ public class ProjectTypeService extends AbstractService<ProjectTypeRepository, P
         this.projectRepository = projectRepository;
     }
 
+    @Override
+    public ProjectType create(ProjectType record) {
+        record.setDeletable(true);
+        return super.create(record);
+    }
     @Override
     protected ProjectType updateExisting(ProjectType existingRecord, ProjectType record) {
         existingRecord.setName(record.getName());

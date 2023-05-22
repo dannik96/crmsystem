@@ -4,9 +4,17 @@ import cz.cvut.fel.groscdan.crmsystem.controller.exception.PatchError;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.Post;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.PostState;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Project;
+import cz.cvut.fel.groscdan.crmsystem.model.project.Task;
 import cz.cvut.fel.groscdan.crmsystem.repository.channel.PostRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
+import cz.cvut.fel.groscdan.crmsystem.service.project.TaskService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class PostService extends AbstractService<PostRepository, Post> {
@@ -55,4 +63,6 @@ public class PostService extends AbstractService<PostRepository, Post> {
 
         repository.saveAndFlush(post);
     }
+
+
 }

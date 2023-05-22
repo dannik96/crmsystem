@@ -17,6 +17,7 @@ public class AudienceDto implements Serializable {
     private final Long id;
     private final String name;
     private final String description;
+    private final Boolean deleted;
     private final Set<ChannelDto> channels;
 
     @AllArgsConstructor

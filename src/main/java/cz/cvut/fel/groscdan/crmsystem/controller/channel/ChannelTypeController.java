@@ -2,10 +2,13 @@ package cz.cvut.fel.groscdan.crmsystem.controller.channel;
 
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.AudienceDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.ChannelTypeDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.ProjectStateDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskStateDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.channel.ChannelTypeMapper;
+import cz.cvut.fel.groscdan.crmsystem.model.channel.Channel;
 import cz.cvut.fel.groscdan.crmsystem.model.channel.ChannelType;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectState;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelTypeService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,15 @@ public class ChannelTypeController {
 
     public ChannelTypeController(ChannelTypeService channelTypeService) {
         this.channelTypeService = channelTypeService;
+    }
+
+    @PostMapping
+    public ResponseEntity<ChannelTypeDto> createChannel(@RequestBody ChannelTypeDto typeDto) {
+
+        ChannelType type = channelTypeMapper.channelTypeDtoToChannelType(typeDto);
+        type = channelTypeService.create(type);
+        typeDto = channelTypeMapper.channelTypeToChannelTypeDto(type);
+        return new ResponseEntity<>(typeDto, HttpStatus.CREATED);
     }
 
     @GetMapping

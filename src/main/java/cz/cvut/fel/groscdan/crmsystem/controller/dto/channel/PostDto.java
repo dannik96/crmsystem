@@ -21,6 +21,7 @@ public class PostDto implements Serializable {
     private final String name;
     private final String content;
     private final LocalDateTime postDate;
+    private final Boolean deleted;
     private final List<ChannelDto1> channels;
     private final List<TaskDto1> tasks;
     private final PostStateDto1 postState;

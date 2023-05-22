@@ -21,18 +21,20 @@ public class TaskDto implements Serializable {
     private final String name;
     private final Integer priority;
     private final Set<TaskLabelDto1> taskLabels;
-    private final PostDto post;
+    private final PostDto1 post;
     private final TaskStateDto1 taskState;
     private final ProjectDto1 project;
     private final PersonDto1 createdByPerson;
     private final PersonDto1 assignedPerson;
+    private final Boolean deleted;
+
 
     /**
      * A DTO for the {@link cz.cvut.fel.groscdan.crmsystem.model.channel.Post} entity
      */
     @AllArgsConstructor
     @Getter
-    public static class PostDto implements Serializable {
+    public static class PostDto1 implements Serializable {
         private final Long id;
         private final Boolean deleted;
         private final LocalDateTime created;

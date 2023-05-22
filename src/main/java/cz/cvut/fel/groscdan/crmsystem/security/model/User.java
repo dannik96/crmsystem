@@ -31,7 +31,7 @@ public class User extends AbstractEntity {
     private String password;
 
     @OneToOne(mappedBy = "user")
-    private Person user;
+    private Person person;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_to_roles",

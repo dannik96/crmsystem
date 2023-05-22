@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class ProjectTypeDto implements Serializable {
     private final Long id;
     private final LocalDateTime created;
+    private final Boolean deletable;
+    private final Boolean deleted;
     private final LocalDateTime modified;
     private final String name;
     private final String description;

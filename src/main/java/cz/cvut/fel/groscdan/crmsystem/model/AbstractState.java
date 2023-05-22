@@ -15,4 +15,7 @@ public abstract class AbstractState extends AbstractEntity {
 
     @Column
     protected String description;
+
+    @Column(columnDefinition = "boolean default true")
+    protected Boolean deletable = true;
 }

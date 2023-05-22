@@ -1,10 +1,13 @@
 package cz.cvut.fel.groscdan.crmsystem.controller.project;
 
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.channel.ChannelTypeDto;
+import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.ProjectTypeDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskLabelDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.dto.project.TaskStateDto;
 import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.ProjectTypeMapper;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.TaskLabelMapper;
+import cz.cvut.fel.groscdan.crmsystem.model.project.ProjectType;
 import cz.cvut.fel.groscdan.crmsystem.model.project.TaskLabel;
 import cz.cvut.fel.groscdan.crmsystem.service.project.TaskLabelService;
 import org.mapstruct.factory.Mappers;
@@ -28,6 +31,15 @@ public class TaskLabelController {
     public ResponseEntity<List<TaskLabelDto>> getAll() {
         List<TaskLabel> taskLabels = taskLabelService.getAll();
         return new ResponseEntity<>(taskLabelMapper.taskLabelToTaskLabelDto(taskLabels), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskLabelDto> createChannel(@RequestBody TaskLabelDto typeDto) {
+
+        TaskLabel type = taskLabelMapper.taskLabelDtoToTaskLabel(typeDto);
+        type = taskLabelService.create(type);
+        typeDto = taskLabelMapper.taskLabelToTaskLabelDto(type);
+        return new ResponseEntity<>(typeDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
