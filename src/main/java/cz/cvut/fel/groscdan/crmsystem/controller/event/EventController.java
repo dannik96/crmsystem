@@ -93,5 +93,11 @@ public class EventController {
         eventService.setProject(eventId, projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    // TODO add methods to product and project
+
+    @GetMapping("/get-by-project/{projectId}")
+    public ResponseEntity<List<EventDto>> getEventsByProject(@PathVariable Long projectId) {
+        List<Event> events = eventService.getEventsByProject(projectId);
+        List<EventDto> eventDtos = eventMapper.eventToEventDto(events);
+        return new ResponseEntity<>(eventDtos, HttpStatus.OK);
+    }
 }

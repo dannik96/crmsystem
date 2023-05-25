@@ -21,6 +21,7 @@ public class TimeSpentDto implements Serializable {
     private final LocalDate date;
     private final Integer time;
     private final Boolean deleted;
+    private final Long userId;
 
     /**
      * A DTO for the {@link cz.cvut.fel.groscdan.crmsystem.model.project.Task} entity

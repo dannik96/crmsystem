@@ -40,7 +40,7 @@ public class TimeSpentController {
     public ResponseEntity<TimeSpentDto> create(@RequestBody TimeSpentDto timeSpentDto) {
 
         TimeSpent timeSpent = labelMapper.timeSpentDtoToTimeSpent(timeSpentDto);
-        timeSpent = timeSpentService.create(timeSpent);
+        timeSpent = timeSpentService.create(timeSpent, timeSpentDto.getUserId());
         timeSpentDto = labelMapper.timeSpentToTimeSpentDto(timeSpent);
         return new ResponseEntity<>(timeSpentDto, HttpStatus.CREATED);
     }

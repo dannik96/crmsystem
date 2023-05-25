@@ -6,10 +6,7 @@ import cz.cvut.fel.groscdan.crmsystem.model.project.*;
 import cz.cvut.fel.groscdan.crmsystem.repository.project.ProjectRepository;
 import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import cz.cvut.fel.groscdan.crmsystem.service.channel.ChannelService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class ProjectService extends AbstractService<ProjectRepository, Project> {
@@ -93,4 +90,5 @@ public class ProjectService extends AbstractService<ProjectRepository, Project> 
 
         repository.saveAndFlush(project);
     }
+
 }

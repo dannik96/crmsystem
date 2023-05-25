@@ -201,4 +201,17 @@ public class TaskService extends AbstractService<TaskRepository, Task> {
     public Set<Task> getTasksByProject(Project project) {
         return new HashSet<>(repository.getTasksByProject(project));
     }
+
+    public Long getProjectTimeSpent(Long projectId) {
+        Project project = projectService.getOneById(projectId);
+        List<Task> tasks = repository.getTasksByProject(project);
+        long sum = 0;
+        for (Task task : tasks) {
+            List<TimeSpent> timeSpents = timeSpentService.findAllByTask(task);
+
+            sum += timeSpents.stream().map(TimeSpent::getTime).reduce(0, Integer::sum);
+        }
+
+        return sum;
+    }
 }

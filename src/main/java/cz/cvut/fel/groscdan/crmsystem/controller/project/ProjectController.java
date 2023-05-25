@@ -123,4 +123,11 @@ public class ProjectController {
         projectService.setManager(idProject, null);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("{projectId}/time-spent/")
+    public ResponseEntity<Long> getProjectTimeSpent(@PathVariable Long projectId) {
+        Long timeSpent = taskService.getProjectTimeSpent(projectId);
+        return new ResponseEntity<>(timeSpent, HttpStatus.OK);
+    }
+
 }

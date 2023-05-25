@@ -9,6 +9,8 @@ import cz.cvut.fel.groscdan.crmsystem.service.AbstractService;
 import cz.cvut.fel.groscdan.crmsystem.service.project.ProjectService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EventService extends AbstractService<EventRepository, Event> {
 
@@ -67,5 +69,11 @@ public class EventService extends AbstractService<EventRepository, Event> {
         event.setProject(project);
 
         repository.saveAndFlush(event);
+    }
+
+    public List<Event> getEventsByProject(Long projectId) {
+        Project project = projectService.getOneById(projectId);
+
+        return repository.getEventsByProject(project);
     }
 }
