@@ -20,7 +20,7 @@ public class Person extends AbstractPerson {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Task> tasks;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     public Person(Person person) {

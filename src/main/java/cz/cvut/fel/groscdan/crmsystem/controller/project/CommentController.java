@@ -5,6 +5,8 @@ import cz.cvut.fel.groscdan.crmsystem.controller.exception.DeleteError;
 import cz.cvut.fel.groscdan.crmsystem.controller.mappers.project.CommentMapper;
 import cz.cvut.fel.groscdan.crmsystem.model.project.Comment;
 import cz.cvut.fel.groscdan.crmsystem.service.project.CommentService;
+import cz.cvut.fel.groscdan.crmsystem.service.project.TaskService;
+import cz.cvut.fel.groscdan.crmsystem.util.UserToPersonMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,14 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final TaskService taskService;
+    private final UserToPersonMapper userToPersonMapper;
     private final CommentMapper commentMapper = Mappers.getMapper(CommentMapper.class);
 
-    public CommentController(CommentService commentService) {
+    public CommentController(CommentService commentService, TaskService taskService, UserToPersonMapper userToPersonMapper) {
         this.commentService = commentService;
+        this.taskService = taskService;
+        this.userToPersonMapper = userToPersonMapper;
     }
 
     @GetMapping

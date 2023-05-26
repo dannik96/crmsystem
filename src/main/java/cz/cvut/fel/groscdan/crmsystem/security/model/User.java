@@ -30,7 +30,7 @@ public class User extends AbstractEntity {
     @NonNull
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Person person;
 
     @ManyToMany(fetch = FetchType.EAGER)
